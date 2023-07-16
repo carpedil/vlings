@@ -85,3 +85,38 @@ fn test_or_else() {
 	}
 	println(op2.or_else(200))
 }
+
+interface Iterator[T] {
+	has_next() bool
+mut:
+	next() T
+}
+
+struct Array[T] {
+mut:
+	data []T
+	pos  int
+}
+
+fn (arr Array[T]) has_next() bool {
+	return arr.pos < arr.data.len
+}
+
+fn (mut arr Array[T]) next() T {
+	pos := arr.pos
+	arr.pos++
+	return arr.data[pos]
+}
+
+fn each[T](mut it Iterator[T]) {
+	for it.has_next() {
+		println(it.next())
+	}
+}
+
+fn test_each() {
+	mut arr := Array[int]{
+		data: [1, 2, 3]
+	}
+	each(mut arr)
+}
