@@ -120,3 +120,42 @@ fn test_each() {
 	}
 	each(mut arr)
 }
+
+fn myprintln[T](data T) {
+	$if T is $array {
+		println('array:[')
+		for i, elem in data {
+			myprintln(elem)
+			if i < data.len - 1 {
+				print(',')
+			}
+			// println(' ')
+		}
+		println(']')
+	} $else $if T is $map {
+		println('map:[')
+		for key, val in data {
+			print('\tkey:')
+			myprintln(key)
+			print('\t-->value:')
+			myprintln(val)
+		}
+		println('}')
+	} $else {
+		print(data)
+	}
+	println('')
+}
+
+fn test_myprintln() {
+	myprintln([1, 2, 3, 4])
+	myprintln({
+		'key1': 123
+		'key2': 456
+	})
+	myprintln('hello world')
+	myprintln({
+		1: ['vlang', 'golang', 'rust']
+		2: ['7', '8', '9', '10']
+	})
+}
