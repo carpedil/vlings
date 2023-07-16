@@ -2,12 +2,12 @@ module interface
 
 pub interface IReader {
 mut:
-    read(buf string) ?int
+	read(buf string) ?int
 }
 
 pub interface IWriter {
 mut:
-    write(buf string) ?int
+	write(buf string) ?int
 }
 
 interface ReaderWriter {
