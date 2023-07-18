@@ -116,3 +116,31 @@ fn test_else_ch() {
 		}
 	}
 }
+
+struct Abc {
+	x int
+}
+
+fn test_special_func() {
+	a := 2.14
+	ch := chan f64{}
+	defer {
+		ch.close()
+	}
+	res := ch.try_push(a) // ch <- a
+	println(res)
+
+	l := ch.len
+	c := ch.cap
+	is_closed := ch.closed
+	println(is_closed)
+	println(l)
+	println(c)
+
+	mut b := Abc{
+		x: 10
+	}
+	ch2 := chan Abc{}
+	res2 := ch2.try_pop(mut b) // b = <- ch2
+	println(res2)
+}
