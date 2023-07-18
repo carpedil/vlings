@@ -1,5 +1,7 @@
 module concurrency
 
+import time
+
 fn sum(values []int, res_ch chan int) {
 	mut sum := 0
 	for val in values {
@@ -89,4 +91,28 @@ fn test_select_chan() {
 	}()
 
 	fibonacci(ch, quit)
+}
+
+fn test_timeout_chan() {
+	ch := chan int{}
+	select {
+		val := <-ch {
+			println(val)
+		}
+		2 * time.second {
+			println('timeout')
+		}
+	}
+}
+
+fn test_else_ch() {
+	ch := chan int{}
+	select {
+		val := <-ch {
+			println(val)
+		}
+		else {
+			println('no values in ch for now')
+		}
+	}
 }
