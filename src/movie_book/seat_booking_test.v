@@ -3,9 +3,41 @@ module movie_book
 import readline { read_line }
 import time
 
+fn test_check_bookings() ! {
+	movie := Movie{}
+	movie_list := movie.get_movies()
+	// println(movie_list.map(it.name))
+
+	for {
+		println('============================================')
+		println('#场次\t\t电影名称')
+		println('--------------------------------------------')
+
+		for index, val in movie_list {
+			println('#${index + 1} -------------- ${val.name}')
+		}
+		println('============================================')
+		mov_index := read_line('请输入您要预定的电影场次: ')!
+
+		valid_mov_idx := []int{len: movie_list.len, init: index}
+		idx := mov_index.trim_space().int() - 1
+
+		if idx >= 0 && idx < valid_mov_idx.len {
+			mut movie_selected := movie.get_movies()[idx]
+			println(movie_selected.symbol.trim_space())
+
+			booking := SeatBooking{}
+
+			booking.check_bookings(mut movie_selected.seats)!
+		} else {
+			println('请输入正确的电影场次: ')
+		}
+	}
+}
+
 struct SeatBooking {}
 
-fn (sb SeatBooking) check_bookings(seats [][]string) {
+fn (sb SeatBooking) check_bookings(mut seats [][]string) ! {
 	println('正在为您查询该场次电影的预定状态...')
 	println('从上到下为1~6排,从左至右为1~8座')
 
@@ -15,20 +47,41 @@ fn (sb SeatBooking) check_bookings(seats [][]string) {
 		time.sleep(100 * time.millisecond)
 	}
 	println('============================================')
+	sb.book_seat(mut seats)!
 }
 
 fn (sb SeatBooking) book_seat(mut seats [][]string) ! {
-	row := read_line('预订第几排的座位呢？请输入 1~6 之间的数字:\n')!
-	colum := read_line('预订这一排的第几座呢？请输入 1~8 之间的数字:\n')!
+	row_label:
+	row := read_line('预订第几排的座位呢？请输入 1~6 之间的数字: ')!
 
-	row_index := row.int() - 1
-	colum_index := colum.int() - 1
-	if seats[row_index][colum_index] == '○' {
-		println('正在为您预订指定座位...')
-		seats[colum_index][colum_index] = '●'
-		println('预订成功！座位号：${row_index + 1}排${colum_index + 1}座')
+	row_index := row.trim_space().int() - 1
+	if row_index >= 0 && row_index < 6 {
+		colum_label:
+		colum := read_line('预订这一排的第几座呢？请输入 1~8 之间的数字: ')!
+
+		colum_index := colum.trim_space().int() - 1
+		if colum_index >= 0 && colum_index < 8 {
+			if seats[row_index][colum_index] == '○' {
+				println('正在为您预订指定座位...')
+				seats[row_index][colum_index] = '●'
+				println('预订成功！座位号：${row_index + 1}排${colum_index + 1}座')
+				time.sleep(3 * time.second)
+				return
+			} else {
+				println('这个座位已经被预订了哦')
+				return
+			}
+		} else {
+			unsafe {
+				println('输入有误! 请重新输入')
+				goto colum_label
+			}
+		}
 	} else {
-		println('这个座位已经被预订了哦')
+		unsafe {
+			println('输入有误! 请重新输入')
+			goto row_label
+		}
 	}
 }
 
@@ -46,13 +99,13 @@ fn (m Movie) get_movies() []Movie {
 			symbol: r'
 			+==================== 泰坦尼克号 =====================+
 
-		▄▄▄▄▄▪   ▄▄▄▄▄  ▄▄▄·   ▐ ▄ ▪      ▄▄· 
-		•██   ██  •██   ▐█ ▀█  •█▌▐█  ██  ▐█ ▌▪
-		▐█.▪ ▐█·  ▐█. ▪▄█▀▀█  ▐█▐▐▌  ▐█· ██ ▄▄
-		▐█▌ ·▐█▌  ▐█▌· ▐█ ▪▐▌ ██▐█▌  ▐█▌ ▐███▌
-		▀▀▀  ▀▀▀  ▀▀▀   ▀  ▀  ▀▀ █  ▪▀▀▀ ·▀▀▀ 
+	▄▄▄▄▄▪   ▄▄▄▄▄  ▄▄▄·   ▐ ▄ ▪      ▄▄·
+	•██   ██  •██   ▐█ ▀█  •█▌▐█  ██  ▐█ ▌▪
+	▐█.▪ ▐█·  ▐█. ▪▄█▀▀█  ▐█▐▐▌  ▐█· ██ ▄▄
+	▐█▌ ·▐█▌  ▐█▌· ▐█ ▪▐▌ ██▐█▌  ▐█▌ ▐███▌
+	▀▀▀  ▀▀▀  ▀▀▀   ▀  ▀  ▀▀ █  ▪▀▀▀ ·▀▀▀
 
-		+===================== Titanic =====================+'
++===================== Titanic =====================+'
 			seats: [['○', '○', '○', '○', '○', '○', '○', '○'],
 				['○', '○', '○', '○', '●', '○', '○', '●'],
 				['○', '○', '●', '○', '●', '○', '○', '○'],
@@ -65,15 +118,15 @@ fn (m Movie) get_movies() []Movie {
 			symbol: r'
 			+======================= 卡门 =======================+
 
-		▄█▄    ██   █▄▄▄▄ █▀▄▀█ ▄███▄      ▄   
-		█▀ ▀▄  █ █  █  ▄▀ █ █ █ █▀   ▀      █  
-		█   ▀  █▄▄█ █▀▀▌  █ ▄ █ ██▄▄    ██   █ 
-		█▄  ▄▀ █  █ █  █  █   █ █▄   ▄▀ █ █  █ 
-		▀███▀     █   █      █  ▀███▀   █  █ █ 
-					█   ▀      ▀           █   ██ 
-				▀                              
+	▄█▄    ██   █▄▄▄▄ █▀▄▀█ ▄███▄      ▄
+	█▀ ▀▄  █ █  █  ▄▀ █ █ █ █▀   ▀      █
+	█   ▀  █▄▄█ █▀▀▌  █ ▄ █ ██▄▄    ██   █
+	█▄  ▄▀ █  █ █  █  █   █ █▄   ▄▀ █ █  █
+	▀███▀     █   █      █  ▀███▀   █  █ █
+				█   ▀      ▀         █   ██
+			▀
 
-		+====================== Carmen =====================+'
++====================== Carmen =====================+'
 			seats: [['○', '○', '○', '○', '○', '○', '○', '○'],
 				['○', '○', '●', '●', '○', '○', '●', '●'],
 				['○', '○', '○', '○', '○', '○', '●', '○'],
@@ -86,15 +139,15 @@ fn (m Movie) get_movies() []Movie {
 			symbol: r'
 			+==================== 机器人总动员 ===================+
 
-		 ██   █▄▄▄▄ █▀▄▀█ ▄███▄      ▄   ▄█▄   
-		 █ █  █  ▄▀ █ █ █ █▀   ▀      █  █▀ ▀▄ 
-		 █▄▄█ █  ▌  █ ▄ █ ██▄▄    ██   █ █▄▄█▀ 
-		 █  █ █  █  █   █ █▄   ▄▀ █ █  █ █▄  ▄▀
-		    █   █      █  ▀█ ██ ▀   █  █ ▀███▀ █ 
-					█   ▀      ▀           █   ██ 
-				▀                              
+		██   █▄▄▄▄ █▀▄▀█ ▄███▄      ▄   ▄█▄
+		█ █  █  ▄▀ █ █ █ █▀   ▀      █  █▀ ▀▄
+		█▄▄█ █  ▌  █ ▄ █ ██▄▄    ██   █ █▄▄█▀
+		█  █ █  █  █   █ █▄   ▄▀ █ █  █ █▄  ▄▀
+		    █   █      █  ▀█ ██ ▀   █  █ ▀███▀ █
+			█   ▀      ▀           █   ██
+			▀
 
-		+====================== WALL·E =====================+'
++====================== WALL·E =====================+'
 			seats: [['●', '○', '○', '○', '○', '○', '○', '○'],
 				['●', '○', '○', '○', '○', '○', '○', '●'],
 				['○', '○', '●', '○', '●', '○', '●', '○'],
@@ -107,13 +160,13 @@ fn (m Movie) get_movies() []Movie {
 			symbol: r'
 		+===================== 黑客帝国 =====================+
 
-		________            __  ___      __       _     
-		/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
-		/ / / __ \\/ _ \\   / /|_/ / __ `/ __/ ___/ / |/_/
-		/ / / / / /  __/  / /  / / /_/ / /_/ /  / />  <  
-		/_/ /_/ /_/\\___/  /_/  /_/\\__,_/\\__/_/  /_/_/|_|  
+	________            __  ___      __       _
+	/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
+	/ / / __ \\/ _ \\   / /|_/ / __ `/ __/ ___/ / |/_/
+	/ / / / / /  __/  / /  / / /_/ / /_/ /  / />  <
+	/_/ /_/ /_/\\___/  /_/  /_/\\__,_/\\__/_/  /_/_/|_|
 
-		+==================== The Matrix ===================+'
++==================== The Matrix ===================+'
 			seats: [['○', '●', '○', '○', '○', '○', '○', '○'],
 				['○', '○', '○', '●', '●', '○', '○', '●'],
 				['○', '○', '○', '○', '○', '○', '○', '○'],
@@ -126,15 +179,15 @@ fn (m Movie) get_movies() []Movie {
 			symbol: r'
 		+====================== 雨人 =======================+
 
-		,---      --   ,-  -   -             --    -   -  
-		|  - \  / /\ \ |(||  \| | |\    /| / /\ \ |  \| | 
-		/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
-		|   (  |  __  || || ||  | (_)|/  ||  __  || ||  | 
-		/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
-		/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
-			(__)         (__)     (__)   (__)        (__)     
+	,---      --   ,-  -   -             --    -   -
+	|  - \  / /\ \ |(||  \| | |\    /| / /\ \ |  \| |
+	/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
+	|   (  |  __  || || ||  | (_)|/  ||  __  || ||  |
+	/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
+	/_  __/ /_  ___     /  |/  /___ _/ /______(_)  __
+			(__)         (__)     (__)   (__)        (__)
 
-		+===================== Rain Man ====================+'
++===================== Rain Man ====================+'
 			seats: [['○', '○', '○', '○', '●', '○', '○', '●'],
 				['○', '○', '○', '●', '●', '○', '○', '○'],
 				['○', '●', '○', '○', '○', '○', '○', '○'],
@@ -143,29 +196,4 @@ fn (m Movie) get_movies() []Movie {
 				['○', '○', '○', '○', '○', '○', '○', '○']]
 		},
 	]
-}
-
-fn test_check_bookings() ! {
-	movie := Movie{}
-	movie_list := movie.get_movies()
-	println(movie_list.map(it.name))
-	println('============================================')
-	for index, val in movie_list {
-		println('#${index + 1} -------------- ${val.name}')
-	}
-	println('============================================')
-	mov_index := read_line('请输入您要预定的电影序号:')!
-
-	valid_mov_idx := []int{len: movie_list.len, init: index}
-	idx := mov_index.int() - 1
-
-	println(idx in valid_mov_idx)
-
-	mut movie_selected := movie.get_movies()[mov_index.int() - 1]
-
-	// booking := SeatBooking{}
-
-	// booking.check_bookings(movie_selected.seats)
-
-	// booking.book_seat(mut movie_selected.seats)!
 }
