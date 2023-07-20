@@ -3,7 +3,9 @@ import net
 import strings
 
 const (
-	server_port = ':22443'
+	server_addr1 = '10.9.64.28'
+	server_addr2 = '10.162.138.83'
+	server_port  = 6612
 )
 
 fn accept(mut server net.TcpListener, c chan &net.TcpConn) {
@@ -11,7 +13,7 @@ fn accept(mut server net.TcpListener, c chan &net.TcpConn) {
 }
 
 fn setup() (&net.TcpListener, &net.TcpConn, &net.TcpConn) {
-	mut server := net.listen_tcp(.ip6, server_port) or { panic(err) }
+	mut server := net.listen_tcp(.ip, '${server_addr1}:${server_port}') or { panic(err) }
 
 	c := chan &net.TcpConn{}
 	spawn accept(mut server, c)
