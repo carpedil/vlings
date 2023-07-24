@@ -16,22 +16,22 @@ fn accept(mut server1 net.TcpListener, c1 chan &net.TcpConn, mut server2 net.Tcp
 }
 
 fn setup() !(&net.TcpListener, &net.TcpConn, &net.TcpConn, &net.TcpListener, &net.TcpConn, &net.TcpConn) {
-	srv1_addr := read_line('enter server 1 addr:')!
-	server_addr_1 := if srv1_addr.trim_space() != '' { srv1_addr.trim_space() } else { server_addr1 }
+	srv1_addr := read_line_trim_space('enter server 1 addr:')!
+	server_addr_1 := if srv1_addr != '' { srv1_addr } else { server_addr1 }
 
-	srv1_port := read_line('enter server 1 port:')!
-	server_port_1 := if srv1_port.trim_space() != '' { srv1_port.trim_space() } else { server_port1 }
+	srv1_port := read_line_trim_space('enter server 1 port:')!
+	server_port_1 := if srv1_port != '' { srv1_port } else { server_port1 }
 	println('listen tcp @${server_addr_1}:${server_port_1}...')
 	mut srv1 := net.listen_tcp(.ip, '${server_addr_1}:${server_port_1}') or {
 		println(err)
 		exit(1)
 	}
 
-	srv2_addr := read_line('enter server 2 addr:')!
-	server_addr_2 := if srv2_addr.trim_space() != '' { srv2_addr.trim_space() } else { server_addr2 }
+	srv2_addr := read_line_trim_space('enter server 2 addr:')!
+	server_addr_2 := if srv2_addr != '' { srv2_addr } else { server_addr2 }
 
-	srv2_port := read_line('enter server 2 port:')!
-	server_port_2 := if srv2_port.trim_space() != '' { srv2_port.trim_space() } else { server_port2 }
+	srv2_port := read_line_trim_space('enter server 2 port:')!
+	server_port_2 := if srv2_port != '' { srv2_port } else { server_port2 }
 	println('listen tcp @${server_addr_2}:${server_port_2}...')
 	mut srv2 := net.listen_tcp(.ip, '${server_addr_2}:${server_port_2}') or {
 		println(err)
@@ -62,7 +62,7 @@ fn setup() !(&net.TcpListener, &net.TcpConn, &net.TcpConn, &net.TcpListener, &ne
 	return srv1, client1, socket1, srv2, client2, socket2
 }
 
-fn read_line(prompt string) !string {
+fn read_line_trim_space(prompt string) !string {
 	input := read_line('${prompt}:')!
 	return input.trim_space()
 }
