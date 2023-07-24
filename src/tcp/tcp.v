@@ -43,17 +43,21 @@ fn setup() !(&net.TcpListener, &net.TcpConn, &net.TcpConn, &net.TcpListener, &ne
 	c2 := chan &net.TcpConn{}
 	spawn accept(mut srv1, c1, mut srv2, c2)
 
-	mut client1 := net.dial_tcp('${server_addr_1}:${server_port_1}') or { panic(err) }
-	mut client2 := net.dial_tcp('${server_addr_2}:${server_port_2}') or { panic(err) }
+	mut client1 := net.dial_tcp_with_bind('${server_addr_1}:${server_port_1}', 'localhost:6020') or {
+		println(err)
+		exit(1)
+	}
+	mut client2 := net.dial_tcp_with_bind('${server_addr_2}:${server_port_2}', 'localhost:6020') or {
+		println(err)
+		exit(1)
+	}
+
 	socket1 := <-c1
 	socket2 := <-c2
 
-	$if debug_peer_ip ? {
-		eprintln('${srv1.addr()}\n${client1.peer_addr()}, ${client1.addr()}\n${socket1.peer_addr()}, ${socket1.addr()}')
-	}
-	$if debug_peer_ip ? {
-		eprintln('${srv2.addr()}\n${client2.peer_addr()}, ${client2.addr()}\n${socket2.peer_addr()}, ${socket2.addr()}')
-	}
+	println('${srv1.addr()}-${client1.peer_addr()}, ${client1.addr()}-${socket1.peer_addr()}, ${socket1.addr()}')
+	println('${srv2.addr()}-${client2.peer_addr()}, ${client2.addr()}-${socket2.peer_addr()}, ${socket2.addr()}')
+
 	assert true
 	return srv1, client1, socket1, srv2, client2, socket2
 }
@@ -80,16 +84,7 @@ fn main() {
 		return
 	}
 	assert true
-	println('message send: ${message}')
-	$if debug {
-		println('message send: ${message}')
-	}
-	$if debug {
-		println('send socket1: ${socket1.sock.handle}')
-	}
-	$if debug {
-		println('send socket2: ${socket2.sock.handle}')
-	}
+
 	mut buf1 := []u8{len: 1024}
 	nbytes1 := client1.read(mut buf1) or {
 		assert false
@@ -97,14 +92,6 @@ fn main() {
 	}
 	received1 := buf1[0..nbytes1].bytestr()
 	println('message received: ${received1}')
-	$if debug {
-		println('message received: ${received1}')
-	}
-	$if debug {
-		println('client: ${client1.sock.handle}')
-	}
-
-	println('received1: \n${received1}')
 
 	mut buf2 := []u8{len: 1024}
 	nbytes2 := client2.read(mut buf2) or {
@@ -113,12 +100,6 @@ fn main() {
 	}
 	received2 := buf2[0..nbytes2].bytestr()
 	println('message received: ${received2}')
-	$if debug {
-		println('message received: ${received2}')
-	}
-	$if debug {
-		println('client: ${client2.sock.handle}')
-	}
-	println('received2: \n${received2}')
+
 	assert received1 == received2
 }
