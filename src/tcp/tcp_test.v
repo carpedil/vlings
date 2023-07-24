@@ -3,7 +3,7 @@ import net
 import strings
 
 const (
-	server_addr1 = '10.9.64.28'
+	server_addr1 = 'localhost'
 	server_addr2 = '10.162.138.83'
 	server_port  = 6612
 )
@@ -17,7 +17,7 @@ fn setup() (&net.TcpListener, &net.TcpConn, &net.TcpConn) {
 
 	c := chan &net.TcpConn{}
 	spawn accept(mut server, c)
-	mut client := net.dial_tcp('localhost${server_port}') or { panic(err) }
+	mut client := net.dial_tcp('localhost:${server_port}') or { panic(err) }
 
 	socket := <-c
 
@@ -39,7 +39,7 @@ fn test_socket() {
 	defer {
 		cleanup(mut server, mut client, mut socket)
 	}
-	message := 'JI HDR=LOT_SRV,FANET,WIN10-OSF2,JOBIN,3.0.0.151,14 DATETIME=20230613093623  OPERATOR=OSFPQ02068 JOB=SXX00072.1 EQP=SST10 CHAMBER= PPID=SCAN PPPARM="" RETICLE= TYPE=S QTY= ALTOP= SIDEDUMMY= CMT="JI-PQ02409,"'
+	message := r'EQPTYPELIST HDR=CQUERY_SRV,FANET,WIN10-OSF2,JOBIN,3.0.0.151,14 DATETIME=20230613093623'
 	socket.write_string(message) or {
 		assert false
 		return
