@@ -62,6 +62,11 @@ fn setup() !(&net.TcpListener, &net.TcpConn, &net.TcpConn, &net.TcpListener, &ne
 	return srv1, client1, socket1, srv2, client2, socket2
 }
 
+fn read_line(prompt string) !string {
+	input := read_line('${prompt}:')!
+	return input.trim_space()
+}
+
 fn cleanup(mut server net.TcpListener, mut client net.TcpConn, mut socket net.TcpConn) {
 	server.close() or {}
 	client.close() or {}
