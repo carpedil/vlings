@@ -1,0 +1,117 @@
+2023-07-26 11:09:04 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:09:04 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 11:12:07 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:12:07 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 11:16:57 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:17:02 [INFO ] connected server @Result(127.0.0.1:51552)
+2023-07-26 11:17:02 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 11:20:44 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:20:49 [INFO ] connected server @Result(127.0.0.1:51726)
+2023-07-26 11:20:49 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 11:32:46 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:32:46 [INFO ] connected server @Result(198.18.0.1:52795)
+2023-07-26 11:34:44 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:34:49 [INFO ] connected server @Result(127.0.0.1:52879)
+2023-07-26 11:34:49 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 11:35:48 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:35:53 [INFO ] connected server @Result(127.0.0.1:52897)
+2023-07-26 11:35:53 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 11:39:30 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:39:35 [INFO ] connected server @Result(127.0.0.1:53004)
+2023-07-26 11:39:35 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 11:47:00 [INFO ] start to connect the remote  tcp server
+2023-07-26 11:47:00 [INFO ] connected server @Result(198.18.0.1:53208)
+2023-07-26 12:00:02 [INFO ] start to connect the remote  tcp server
+2023-07-26 12:00:07 [INFO ] connected server @Result(127.0.0.1:60412)
+2023-07-26 12:00:07 [INFO ] [Send Msg]REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 12:00:07 [INFO ] Received response: HTTP/1.1 200 OK
+2023-07-26 12:01:35 [INFO ] start to connect the remote  tcp server
+2023-07-26 12:01:40 [INFO ] connected server @Result(127.0.0.1:60454)
+2023-07-26 12:01:40 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 12:01:40 [INFO ] [Received Message] HTTP/1.1 200 OK
+2023-07-26 12:23:13 [INFO ] start to connect the remote  tcp server
+2023-07-26 12:23:18 [INFO ] connected server @Result(127.0.0.1:64632)
+2023-07-26 12:23:18 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 12:26:13 [INFO ] start to connect the remote  tcp server
+2023-07-26 12:26:18 [INFO ] connected server @Result(127.0.0.1:62602)
+2023-07-26 12:26:18 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 12:26:18 [INFO ] [Received Message] HTTP/1.1 200 OK
+2023-07-26 13:10:08 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:10:13 [INFO ] connected server @Result(127.0.0.1:61849)
+2023-07-26 13:10:13 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:10:13 [INFO ] [Received Message] HTTP/1.1 200 OK
+2023-07-26 13:11:49 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:11:55 [INFO ] connected server @Result(127.0.0.1:63453)
+2023-07-26 13:11:55 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:11:55 [INFO ] [Received Message] HTTP/1.1 200 OK
+2023-07-26 13:33:32 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:33:32 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:33:32 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:35:00 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:35:00 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:35:00 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:37:11 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:37:11 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:37:11 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:38:40 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:38:40 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:38:40 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:42:51 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:42:51 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:42:51 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:47:16 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:47:21 [ERROR] Failed to connect to server: dial_tcp_with_bind failed for address 10.9.64.28:6612
+2023-07-26 13:47:32 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:47:32 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:47:32 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:47:49 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:47:54 [ERROR] Failed to connect to server: dial_tcp_with_bind failed for address localhost:8090
+2023-07-26 13:49:08 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:49:13 [ERROR] Failed to connect to server: dial_tcp_with_bind failed for address localhost:8090
+2023-07-26 13:50:54 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:50:54 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:50:54 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 13:51:36 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:51:41 [ERROR] Failed to connect to server: dial_tcp_with_bind failed for address localhost:8090
+2023-07-26 13:52:04 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:52:09 [ERROR] Failed to connect to server: dial_tcp_with_bind failed for address localhost:8090
+2023-07-26 13:53:43 [INFO ] start to connect the remote  tcp server
+2023-07-26 13:53:43 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 13:53:43 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:06:44 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:06:44 [INFO ] connected server @Result(127.0.0.1:6020)
+2023-07-26 14:06:44 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:14:07 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:14:12 [INFO ] connected server @Result(127.0.0.1:57411)
+2023-07-26 14:14:12 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:22:31 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:22:31 [INFO ] connected server @Result(198.18.0.1:55665)
+2023-07-26 14:22:31 [INFO ] [Send Message] REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:40:11 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:40:49 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:41:05 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:41:54 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:41:59 [INFO ] connected server @Result(127.0.0.1:56394)
+2023-07-26 14:41:59 [INFO ] [Send Message] 1033REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:55:35 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:56:16 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:56:16 [INFO ] connected server @Result(198.18.0.1:65494)
+2023-07-26 14:56:16 [INFO ] [Send Message]:3103REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 14:56:57 [INFO ] start to connect the remote  tcp server
+2023-07-26 14:56:57 [INFO ] connected server @Result(198.18.0.1:65503)
+2023-07-26 14:56:57 [INFO ] [Send Message]:3103REGCLIENT HDR=FANET,FANET,WIN10-OSF2,3.0.0.151,14 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 15:01:44 [INFO ] start to connect the remote  tcp server
+2023-07-26 15:01:44 [INFO ] connected server @Result(198.18.0.1:49271)
+2023-07-26 15:01:44 [INFO ] [Send Message]:290REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 15:23:05 [INFO ] start to connect the remote  tcp server
+2023-07-26 15:23:10 [INFO ] connected server @Result(127.0.0.1:49912)
+2023-07-26 15:23:10 [INFO ] [Send Message]:290REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 15:23:10 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 15:24:21 [INFO ] start to connect the remote  tcp server
+2023-07-26 15:24:26 [INFO ] connected server @Result(127.0.0.1:49955)
+2023-07-26 15:24:26 [INFO ] [Send Message]:290REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 15:24:26 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 15:25:26 [INFO ] start to connect the remote  tcp server
+2023-07-26 15:25:31 [INFO ] connected server @Result(127.0.0.1:49991)
+2023-07-26 15:25:31 [INFO ] [Send Message]:290REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
+2023-07-26 15:25:31 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2

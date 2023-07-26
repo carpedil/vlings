@@ -3,33 +3,37 @@ module main
 import net
 
 fn main() {
-	mut listener := net.listen_tcp(.ip, ':8080') or { panic(err) }
-	println('server start @localhost:8080...')
+	mut listener := net.listen_tcp(.ip, 'localhost:8090') or { panic(err) }
+	defer {
+		listener.close() or { panic(err) }
+	}
+	println('server start @${listener.addr()}')
 
 	for {
 		mut conn := listener.accept() or { panic(err) }
-
 		spawn handle_conn(mut conn)
 	}
-
-	listener.close() or { panic(err) }
 }
 
-fn handle_conn(mut conn net.TcpConn) {
+fn handle_conn(mut conn net.TcpConn) ! {
 	defer {
 		conn.close() or {}
 	}
 
-	for {
-		println('connention ....')
-		mut buf := []u8{len: 1024}
-		nbytes := conn.read(mut buf) or { panic(err) }
-		if nbytes == 0 {
-			break
-		}
-		received := buf[0..nbytes].bytestr()
-		// ...handle request...
-
-		conn.write('HTTP/1.1 200 OK\r\n\r\n${received}'.bytes()) or { panic(err) }
+	println('new connention coming from ${conn.peer_addr()}....')
+	mut client := net.dial_tcp('10.8.3.125:6020') or { panic(err) }
+	defer {
+		client.close() or { println('Failed to close connection: ${err}') }
 	}
+
+	mut buf := []u8{len: 1024}
+	nbytes := conn.read(mut buf) or { panic(err) }
+	if nbytes == 0 {
+		return
+	}
+	received := buf[0..nbytes].bytestr()
+	println('received message from client:\n${received}')
+	// ...handle request...
+
+	client.write('HTTP/1.1 200 OK'.bytes()) or { panic(err) }
 }
