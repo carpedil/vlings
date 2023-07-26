@@ -115,3 +115,54 @@
 2023-07-26 15:25:31 [INFO ] connected server @Result(127.0.0.1:49991)
 2023-07-26 15:25:31 [INFO ] [Send Message]:290REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020
 2023-07-26 15:25:31 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 16:42:25 [INFO ] start to connect the remote  tcp server
+2023-07-26 16:42:25 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 16:42:30 [INFO ] connected server @Result(127.0.0.1:62932)
+2023-07-26 16:42:30 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 16:44:14 [INFO ] start to connect the remote  tcp server
+2023-07-26 16:44:19 [INFO ] connected server @Result(127.0.0.1:62979)
+2023-07-26 16:44:19 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 16:51:26 [INFO ] start to connect the remote  tcp server
+2023-07-26 16:51:26 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 16:51:31 [INFO ] connected server @Result(127.0.0.1:63179)
+2023-07-26 16:51:31 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 16:51:36 [INFO ] new connention coming from Result(127.0.0.1:63184)....
+2023-07-26 16:51:36 [INFO ] [Received Message]:HTTP/1.1 200 OK
+2023-07-26 16:51:36 [INFO ] new connention coming from Result(127.0.0.1:63184)....
+2023-07-26 17:01:17 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:01:17 [INFO ] connected server @Result(198.18.0.1:63511)
+2023-07-26 17:01:17 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 17:01:46 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:02:13 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:07:42 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:07:42 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:07:47 [INFO ] connected server @Result(127.0.0.1:63724)
+2023-07-26 17:07:47 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 17:07:52 [INFO ] new connention coming from Result(127.0.0.1:63728)....
+2023-07-26 17:07:52 [INFO ] [Received Message]:HTTP/1.1 200 OK
+2023-07-26 17:07:52 [INFO ] new connention coming from Result(127.0.0.1:63728)....
+2023-07-26 17:09:38 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:09:38 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:09:43 [INFO ] connected server @Result(127.0.0.1:63795)
+2023-07-26 17:09:43 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 17:09:48 [INFO ] new connention coming from Result(127.0.0.1:63797)....
+2023-07-26 17:09:48 [INFO ] [Received Message]:HTTP/1.1 200 OK
+2023-07-26 17:09:48 [INFO ] new connention coming from Result(127.0.0.1:63797)....
+2023-07-26 17:09:48 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:14:14 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:14:14 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:14:19 [INFO ] connected server @Result(127.0.0.1:63913)
+2023-07-26 17:14:19 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 17:14:24 [INFO ] new connention coming from Result(127.0.0.1:63917)....
+2023-07-26 17:14:24 [INFO ] [Received Message]:HTTP/1.1 200 OK
+2023-07-26 17:14:24 [INFO ] new connention coming from Result(127.0.0.1:63917)....
+2023-07-26 17:16:24 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:17:17 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:17:17 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:17:54 [INFO ] start to connect the remote  tcp server
+2023-07-26 17:17:54 [INFO ] Tcp Listener Get Local Ip Address@Result(127.0.0.1:6020)
+2023-07-26 17:17:59 [INFO ] connected server @Result(127.0.0.1:64013)
+2023-07-26 17:17:59 [INFO ] [Send Message]:3101GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2
+2023-07-26 17:18:04 [INFO ] new connention coming from Result(127.0.0.1:64017)....
+2023-07-26 17:18:04 [INFO ] [Received Message]:HTTP/1.1 200 OK
+2023-07-26 17:18:04 [INFO ] new connention coming from Result(127.0.0.1:64017)....
