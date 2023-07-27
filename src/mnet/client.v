@@ -3,8 +3,9 @@ module main
 import net
 import readline { read_line }
 import log
+import time
 
-const addresss = ['10.9.64.28:6612', '10.162.138.83:6612']
+const addresss = ['10.162.138.83:6612', '10.9.64.28:6612']
 
 const address_local = ['localhost:8090']
 
@@ -31,12 +32,12 @@ fn main() {
 	}
 	l.info('Tcp Listener Get Local Ip Address@${listener.addr()}')
 
-	mut conn := listener.accept() or { panic(err) }
-	defer {
-		conn.close() or {}
-	}
-
 	for {
+		mut conn := listener.accept() or { panic(err) }
+		defer {
+			conn.close() or {}
+		}
+
 		l.info('new connention coming from ${conn.peer_addr()}....')
 		mut buf := []u8{len: 4096}
 		nbytes := conn.read(mut buf) or {
@@ -61,15 +62,14 @@ fn handle_connect_and_send(addrs []string, mut l log.Log) {
 		}
 		l.info('connected server @${conn.addr()}')
 
-		// message_list := [
-		// 	'REGCLIENT HDR=FANET,FANET,WIN10-OSF2 DATETIME=20230613093623 ,,,,, IP=10.8.3.125 PORT=6020',
-		// 	'GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2',
-		// ]
-		message := 'GETCELLID HDR=QUERY_SRV,FANET,WIN10-OSF2,OSFMGR,3.0.0.203,1 DATETIME=20230726150144 CLIENT=WIN10-OSF2'
+		// GETLOTINFO HDR=QUERY_SRV,FANET,WIN10-OSF2,JOBIN,3.0.0.204,5 DATETIME=20230727114155 LOT=WQB05596.1 OPERATOR=OSFPQ02068
+		message := r'CHGLOTCMT HDR=CLOT_SRV,FANET,WIN10-OSF2,CLOTCMT,3.0.0.151,130 DATETIME=20230613113534 OPERATOR=OSFPQ02068 LOT=WQB05215.1 CMT="new cc comment"'
+
 		ms := parse_message(message)
 		l.info('[Send Message]:${ms}')
 
 		send_message(mut conn, ms, mut l)
+		time.sleep(800 * time.millisecond)
 	}
 }
 
