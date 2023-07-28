@@ -2,7 +2,7 @@ module main
 
 import vweb
 import vweb.csrf
-import diff.src.databases
+import databases
 import os
 import json
 
