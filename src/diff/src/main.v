@@ -2,12 +2,12 @@ module main
 
 import vweb
 import vweb.csrf
-import databases
+import diff.src.databases
 import os
 import json
 
 const (
-	port = 8082
+	port        = 8082
 	// the configuration moved here
 	csrf_config = csrf.CsrfConfig{
 		// change the secret
@@ -38,7 +38,7 @@ fn main() {
 
 	mut app := &App{
 		middlewares: {
-			'/': [csrf.middleware(csrf_config)],
+			'/': [csrf.middleware(csrf_config)]
 		}
 	}
 	app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
@@ -64,19 +64,19 @@ pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
 }
 
-['/api/save';post]
+['/api/save'; post]
 pub fn (mut api App) api_save() vweb.Result {
-	data := json.decode(ApiData,api.req.data) or {
-		api.set_status(400,'')
-		return api.text('Failed to decode json, error: $err')
-	 }
-	//  todo save data to db 
+	data := json.decode(ApiData, api.req.data) or {
+		api.set_status(400, '')
+		return api.text('Failed to decode json, error: ${err}')
+	}
+	//  todo save data to db
 
 	return api.json('data saved ${data}')
 }
 
 struct ApiData {
-	server_name string	//服务名
-	api_content string 	//	Api格式化后的内容
-	test_count int  	// 测试次数，不太准确，但可以作为排序算法的参数。 有利于SNI
+	server_name string //服务名
+	api_content string //	Api格式化后的内容
+	test_count  int    // 测试次数，不太准确，但可以作为排序算法的参数。 有利于SNI
 }
