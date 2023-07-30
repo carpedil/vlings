@@ -105,7 +105,7 @@
 	};
 </script>
 
-<div class="flex flex-row justify-center mt-[100px] text-lg">
+<div class="flex flex-row justify-center mt-[10px] text-lg">
 	<div>
 		SRV NAME:
 
@@ -130,7 +130,7 @@
 	</div>
 </div>
 
-<div class="flex flex-row justify-center mt-[100px] text-md">
+<div class="flex flex-row justify-center mt-[20px] text-md">
 	<!-- table of apis -->
 	<table class="w-[85vw] border border-separate">
 		<tr class=" text-left">

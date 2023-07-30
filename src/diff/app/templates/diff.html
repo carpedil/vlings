@@ -4,33 +4,42 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="./favicon.png" />
 		<meta name="viewport" content="width=device-width" />
-		
-		<link href="./_app/immutable/assets/0.9307e4d6.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.f8b6a0ff.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.e108d1fd.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.2786b6d8.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.51d880a8.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/index.1c70bbaf.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.2484f816.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/3.49752754.js">
+
+		<link href="./_app/immutable/assets/0.9307e4d6.css" rel="stylesheet" />
+		<link rel="modulepreload" href="./_app/immutable/entry/start.f8b6a0ff.js" />
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.e108d1fd.js" />
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.2786b6d8.js" />
+		<link rel="modulepreload" href="./_app/immutable/entry/app.51d880a8.js" />
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.1c70bbaf.js" />
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.2484f816.js" />
+		<link rel="modulepreload" href="./_app/immutable/nodes/3.49752754.js" />
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">  <nav class="flex flex-row list-none justify-evenly bg-slate-500 text-white" data-svelte-h="svelte-16sz363"><li><a href="/">New</a></li> <li><a href="/diff">Diff</a></li></nav> <div data-svelte-h="svelte-icads0">This is Diff page</div> <div><p class="h1"></p></div> 
-			
+		<div style="display: contents">
+			<nav
+				class="flex flex-row list-none justify-evenly bg-slate-500 text-white"
+				data-svelte-h="svelte-16sz363"
+			>
+				<li><a href="/">New</a></li>
+				<li><a href="/diff">Diff</a></li>
+			</nav>
+			<div data-svelte-h="svelte-icads0">This is Diff page</div>
+			<div><p class="h1"></p></div>
+
 			<script>
 				{
 					__sveltekit_127xz3v = {
-						base: new URL(".", location).pathname.slice(0, -1),
+						base: new URL('.', location).pathname.slice(0, -1),
 						env: {}
 					};
 
 					const element = document.currentScript.parentElement;
 
-					const data = [null,null];
+					const data = [null, null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.f8b6a0ff.js"),
-						import("./_app/immutable/entry/app.51d880a8.js")
+						import('./_app/immutable/entry/start.f8b6a0ff.js'),
+						import('./_app/immutable/entry/app.51d880a8.js')
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 3],
