@@ -66,6 +66,7 @@ pub fn (mut app App) api_save() !vweb.Result {
 		insert ad into ApiData
 	} or { insert_error = err.msg() }
 	if insert_error != '' {
+		println(insert_error)
 		app.set_status(400, '')
 		return app.text('${insert_error}')
 	}
@@ -76,7 +77,7 @@ pub fn (mut app App) api_save() !vweb.Result {
 [table: 'api_data']
 struct ApiData {
 	id          int    [primary; sql: serial]
-	srv_name    string [nonnull; sql_type: 'TEXT'; unique] // 服务名
+	srv_name    string [nonnull; sql_type: 'TEXT'] // 服务名
 	api_content string [nonnull; sql_type: 'TEXT'] // Api格式化后的内容
 	test_count  int    [default: '0'] // 测试次数，不太准确，但可以作为排序算法的参数。 有利于SNI
 }
