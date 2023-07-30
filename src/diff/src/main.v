@@ -6,7 +6,7 @@ import os
 import json
 
 const (
-	port        = 8082
+	port = 8082
 )
 
 struct App {
@@ -22,6 +22,7 @@ fn main() {
 
 	sql db {
 		create table ApiData
+		create table SrvData
 	} or { panic('error on create table: ${err}') }
 
 	db.close() or { panic(err) }
@@ -40,10 +41,69 @@ pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
 }
 
-
 ['/test/hello']
 pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
+}
+
+['/srv/save'; post]
+pub fn (mut app App) srv_save() !vweb.Result {
+	mut db := databases.create_db_connection() or { panic(err) }
+	defer {
+		db.close() or { panic(err) }
+	}
+	data := json.decode(SrvData, app.req.data) or {
+		app.set_status(400, '')
+		return app.text('Failed to decode json, error: ${err}')
+	}
+	//  todo save data to db
+	sd := SrvData{
+		srv_name: data.srv_name
+	}
+	mut insert_error := ''
+	sql db {
+		insert sd into SrvData
+	} or { insert_error = err.msg() }
+	if insert_error != '' {
+		println(insert_error)
+		app.set_status(400, '')
+		return app.text('${insert_error}')
+	}
+
+	return app.json('data saved ${data}')
+}
+
+['/srv/list'; get]
+pub fn (mut app App) srv_list() !vweb.Result {
+	mut db := databases.create_db_connection() or { panic(err) }
+	defer {
+		db.close() or { panic(err) }
+	}
+	results := sql db {
+		select from SrvData
+	}!
+	// dump(results)
+	mut srv_list := []SrvDataDto{}
+	for srv in results {
+		mut srv_dto := SrvDataDto{}
+		srv_dto.srv_name = srv.srv_name
+		mut api_list := []ApiDataDto{}
+		for api in srv.api_list {
+			api_dto := ApiDataDto{
+				id: api.id
+				srv_id: api.srv_id
+				api_content: api.api_content
+				api_param: json.decode([]Param, api.api_param)!
+			}
+			// dump(api_dto)
+			api_list << api_dto
+		}
+		srv_dto.api_list = api_list
+		dump(srv_dto)
+		srv_list << srv_dto
+	}
+
+	return app.json(srv_list)
 }
 
 ['/api/save'; post]
@@ -56,10 +116,13 @@ pub fn (mut app App) api_save() !vweb.Result {
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: ${err}')
 	}
+
 	//  todo save data to db
 	ad := ApiData{
-		srv_name: data.srv_name
+		srv_id: 1
+		api_name: extract_api_name(data.api_content.trim_space())
 		api_content: data.api_content
+		api_param: extract_params(data.api_content.trim_space())
 	}
 	mut insert_error := ''
 	sql db {
@@ -71,13 +134,68 @@ pub fn (mut app App) api_save() !vweb.Result {
 		return app.text('${insert_error}')
 	}
 
-	return app.json('data saved ${data}')
+	println(ad)
+	return app.json(ad)
+}
+
+//  " GETLOTINFO   HDR=  LOT=       OPERATOR= "
+fn extract_api_name(contents string) string {
+	return contents.split(' ')[0]
+}
+
+fn extract_params(contents string) string {
+	content := contents.replace('  ', ' ')
+	mut params := []Param{}
+	println(content.split(' '))
+	for splited_str in content.split(' ') {
+		if splited_str.contains('=') {
+			p := Param{
+				key: splited_str.split('=')[0]
+				value: ''
+				is_required: false
+			}
+			params << p
+		}
+	}
+	return json.encode(params)
+}
+
+[table: 'srv_data']
+struct SrvData {
+	id       int       [primary; sql: serial]
+	srv_name string    [nonnull; sql_type: 'TEXT'; unique] // 服务名
+	api_list []ApiData [fkey: 'srv_id']
 }
 
 [table: 'api_data']
 struct ApiData {
 	id          int    [primary; sql: serial]
-	srv_name    string [nonnull; sql_type: 'TEXT'] // 服务名
-	api_content string [nonnull; sql_type: 'TEXT'] // Api格式化后的内容
+	srv_id      int    [nonnull] // 服务名
+	api_name    string [nonnull; sql_type: 'TEXT']
+	api_content string [nonnull; sql_type: 'TEXT']
+	api_param   string [nonnull; sql_type: 'TEXT']
 	test_count  int    [default: '0'] // 测试次数，不太准确，但可以作为排序算法的参数。 有利于SNI
+}
+
+struct SrvDataDto {
+mut:
+	id       int
+	srv_name string
+	api_list []ApiDataDto
+}
+
+struct ApiDataDto {
+mut:
+	id          int
+	srv_id      int
+	api_name    string
+	api_content string
+	api_param   []Param
+	test_count  int
+}
+
+struct Param {
+	key         string
+	value       string
+	is_required bool
 }
