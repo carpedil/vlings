@@ -41,12 +41,12 @@ pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
 }
 
-['/test/hello']
+['/api/test/hello']
 pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
 }
 
-['/srv/save'; post]
+['/api/srv/add'; post]
 pub fn (mut app App) srv_save() !vweb.Result {
 	mut db := databases.create_db_connection() or { panic(err) }
 	defer {
@@ -73,7 +73,7 @@ pub fn (mut app App) srv_save() !vweb.Result {
 	return app.json('data saved ${data}')
 }
 
-['/srv/list'; get]
+['/api/srv/list'; get]
 pub fn (mut app App) srv_list() !vweb.Result {
 	mut db := databases.create_db_connection() or { panic(err) }
 	defer {
@@ -92,6 +92,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 			api_dto := ApiDataDto{
 				id: api.id
 				srv_id: api.srv_id
+				api_name: api.api_name
 				api_content: api.api_content
 				api_param: json.decode([]Param, api.api_param)!
 			}
@@ -106,7 +107,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 	return app.json(srv_list)
 }
 
-['/api/save'; post]
+['/api/add'; post]
 pub fn (mut app App) api_save() !vweb.Result {
 	mut db := databases.create_db_connection() or { panic(err) }
 	defer {
