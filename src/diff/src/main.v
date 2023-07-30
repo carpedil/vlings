@@ -41,7 +41,7 @@ pub fn (mut app App) index() vweb.Result {
 }
 
 
-['/diff/hello']
+['/test/hello']
 pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
 }
