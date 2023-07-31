@@ -67,10 +67,10 @@ pub fn (mut app App) srv_save() !vweb.Result {
 	if insert_error != '' {
 		println(insert_error)
 		app.set_status(400, '')
-		return app.text('${insert_error}')
+		return app.json(insert_error)
 	}
 
-	return app.json('data saved ${data}')
+	return app.json(data)
 }
 
 ['/api/srv/list'; get]
@@ -82,10 +82,13 @@ pub fn (mut app App) srv_list() !vweb.Result {
 	results := sql db {
 		select from SrvData
 	}!
+	// println('===========================')
 	// dump(results)
+	// println('===========================')
 	mut srv_list := []SrvDataDto{}
 	for srv in results {
 		mut srv_dto := SrvDataDto{}
+		srv_dto.id = srv.id
 		srv_dto.srv_name = srv.srv_name
 		mut api_list := []ApiDataDto{}
 		for api in srv.api_list {
@@ -118,9 +121,13 @@ pub fn (mut app App) api_save() !vweb.Result {
 		return app.text('Failed to decode json, error: ${err}')
 	}
 
+	// println('----------------------------')
+	// dump(data)
+	// println('----------------------------')
+
 	//  todo save data to db
 	ad := ApiData{
-		srv_id: 1
+		srv_id: data.srv_id
 		api_name: extract_api_name(data.api_content.trim_space())
 		api_content: data.api_content
 		api_param: extract_params(data.api_content.trim_space())
@@ -132,11 +139,17 @@ pub fn (mut app App) api_save() !vweb.Result {
 	if insert_error != '' {
 		println(insert_error)
 		app.set_status(400, '')
-		return app.text('${insert_error}')
+		return app.json(insert_error)
 	}
 
-	println(ad)
-	return app.json(ad)
+	api_dto := ApiDataDto{
+		srv_id: ad.srv_id
+		api_name: ad.api_name
+		api_content: ad.api_content
+		api_param: json.decode([]Param, ad.api_param)!
+	}
+	dump(api_dto)
+	return app.json(api_dto)
 }
 
 //  " GETLOTINFO   HDR=  LOT=       OPERATOR= "
