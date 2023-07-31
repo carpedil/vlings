@@ -17,6 +17,7 @@ echo 'back to /app'
 cd ./../app
 
 echo 'starting run build scripts'
+npm run format
 npm run build
 echo 'build completed '
 
