@@ -2,6 +2,7 @@
 	import type { ApiData } from '$lib';
 
 	export let api: ApiData | undefined;
+	$: console.log(api);
 </script>
 
 <div class="border bg-white h-[7vh] p-1">
@@ -27,6 +28,7 @@
 								name={param.key}
 								id={param.key}
 								bind:value={param.value}
+								on:change={() => (param.value = param.value.toUpperCase())}
 								required={param.is_required}
 								class="border float-right text-left"
 							/>
