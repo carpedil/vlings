@@ -13,6 +13,6 @@
 </script>
 
 <p class="h1">{hello}</p>
-<div class="flex flex-row justify-start h-[100vh] p-1 mt-[5px] text-lg">
+<div class="flex flex-row justify-start border w-full h-screen p-1">
 	<Srvlist />
 </div>

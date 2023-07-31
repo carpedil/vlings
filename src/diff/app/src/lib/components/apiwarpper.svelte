@@ -4,6 +4,6 @@
 
 <!-- container -->
 <div class="border bg-white h-60 p-1">
-	<h1>api list:</h1>
+	<h1>srv list:</h1>
 </div>
 <Apiinfo />
