@@ -1,23 +1,6 @@
 <script lang="ts">
-	import { afterUpdate, onMount } from 'svelte';
-	type Param = {
-		key: string;
-		value: string;
-		is_required: boolean;
-	};
-	type ApiData = {
-		id: number;
-		srv_id: number;
-		api_name: string;
-		api_content: string;
-		api_param: Param[];
-		test_count: number;
-	};
-	type SrvData = {
-		id: string;
-		srv_name: string;
-		api_list: ApiData[];
-	};
+	import type { SrvData, ApiData } from '$lib';
+	import { onMount } from 'svelte';
 
 	let select_srv: SrvData;
 	let curr_srv_api: ApiData[] = [];
