@@ -20,7 +20,7 @@ bin/
 .env
 
 # vweb and database
-*.db
+
 
 
 .DS_Store
