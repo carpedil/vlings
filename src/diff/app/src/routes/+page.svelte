@@ -22,7 +22,7 @@
 	let select_srv: SrvData;
 	let curr_srv_api: ApiData[] = [];
 	let srv_list: SrvData[] = [];
-	let api_content:string = ''
+
 
 	const submit_api = () => {
 		const srv_name = document.getElementById('srv_list') as HTMLSelectElement;
