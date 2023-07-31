@@ -28,13 +28,13 @@
 
 <!-- container -->
 <div class="border bg-white h-[15vh] p-1">
-	<h1 class=" border-b-red-700">API LIST:</h1>
+	<span class="border-b-orange-600 border-t-0 border-l-0 border-r-0 border-4">API LIST:</span>
 	<div class="h-[12vh] w-full float-left overflow-y-scroll scroll-auto">
 		{#each api_list as api}
 			<input
 				type="button"
 				value={api.api_name}
-				class="border bg-slate-400 p-1 m-1 text-sm text-yellow-50 hover:bg-orange-600 rounded-md"
+				class="border bg-slate-400 p-1 m-1 text-sm text-yellow-50 hover:bg-orange-500 active:bg-orange-600 focus:bg-orange-600 rounded-md"
 				on:click={handleApiClick}
 			/>
 		{/each}

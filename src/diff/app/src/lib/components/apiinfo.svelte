@@ -1,28 +1,43 @@
 <script lang="ts">
-	import type { ApiData } from '$lib';
+	import type { ApiData, Param } from '$lib';
+	import Messagewarpper from './messagewarpper.svelte';
 
 	export let api: ApiData | undefined;
-	$: console.log(api);
+	let msg: string = '';
+	$: {
+		let tmp_msg = '';
+		if (api != undefined) {
+			api.api_param.forEach((p) => {
+				tmp_msg += `${p.key}=${
+					p.value.includes(' ') && p.key != 'HDR'
+						? `"${p.value.toUpperCase()}" `
+						: `${p.value.toUpperCase()} `
+				} `;
+			});
+		}
+		msg = `${api?.api_name} ${tmp_msg}`;
+		// console.log(msg);
+	}
 </script>
 
-<div class="border bg-white h-[7vh] p-1">
+<div class="border-2 bg-white h-[7vh] w-full p-1 flex items-center">
 	{#if api != undefined}
-		<div class="mb-1">
-			<span class=" border-b-red-700">API INFO: </span><span
-				class=" bg-blue-500 p-0.5 text-sm text-red-100 rounded-md"
-				>{api.api_content === '' ? '' : api.api_content}</span
-			>
+		<div
+			class={api.api_content === ''
+				? ''
+				: 'w-full bg-blue-500 p-0.5 text-sm text-red-100 rounded-md overflow-x-scroll'}
+		>
+			{api.api_content === '' ? '' : api.api_content}
 		</div>
 	{/if}
 </div>
 <div class="bg-white h-[73vh] p-1">
-	<h1>received message:</h1>
 	<div class="flex flex-row justify-evenly">
-		<div class="border w-[45vw] h-[73vh] p-1">
+		<div class="border w-[55vw] h-[73vh] p-1">
 			{#if api != undefined}
 				{#each api.api_param as param}
-					<div class="flex-1 border">
-						<label for={param.key}
+					<div class="border">
+						<label for={param.key} class="w-[10vw]"
 							>{param.key}=<input
 								type="text"
 								name={param.key}
@@ -30,14 +45,13 @@
 								bind:value={param.value}
 								on:change={() => (param.value = param.value.toUpperCase())}
 								required={param.is_required}
-								class="border float-right text-left"
+								class="w-[23vw] border float-right text-left bg-slate-300"
 							/>
 						</label>
 					</div>
 				{/each}
 			{/if}
 		</div>
-		<div class="border w-full h-[73vh] p-1">left:</div>
-		<div class="border w-full h-[73vh] p-1">right</div>
+		<Messagewarpper {msg} />
 	</div>
 </div>

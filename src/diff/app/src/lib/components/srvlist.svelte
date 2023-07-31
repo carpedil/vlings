@@ -27,20 +27,23 @@
 	};
 </script>
 
-<div class="border w-[10vw] p-1">
-	<span class=" text-blue-700">SRV LIST:</span>
+<div class="border w-[12vw] p-1">
+	<span class="border-b-red-600 border-t-0 border-l-0 border-r-0 border-4">SRV LIST:</span>
 	<div class="flex flex-col">
 		{#each srv_list as srv}
-			<label for={srv.id} class="hover:bg-orange-600 hover:text-white rounded-sm"
-				><input
+			<label for={srv.id}>
+				<input
 					type="radio"
 					name="srvlist"
 					id={srv.id}
+					value={srv.srv_name}
 					checked={srv.id == '1'}
 					data-srv_id={srv.id}
 					on:click={handleClick}
-				/>{srv.srv_name}</label
-			>
+					class="border text-left w-auto p-0.5 hover:text-white hover:bg-red-500 focus:bg-red-600 focus:text-white rounded-sm"
+				/>
+				{srv.srv_name}
+			</label>
 		{/each}
 	</div>
 </div>
