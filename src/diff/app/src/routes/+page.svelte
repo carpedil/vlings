@@ -5,6 +5,7 @@
 	let curr_srv_api: ApiData[] = [];
 	let srv_list: SrvData[] = [];
 	let output: string = '';
+	let default_hdr: string = '';
 
 	const submit_api = () => {
 		const selected_srv = document.getElementById('srv_list') as HTMLSelectElement;
@@ -18,8 +19,9 @@
 		let srv_name = document.getElementById('srv_name') as HTMLSelectElement;
 
 		console.log(srv_name.value);
-		save_srv(srv_name.value);
+		save_srv(srv_name.value, default_hdr);
 		srv_name.value = '';
+		default_hdr = '';
 	};
 	const delApi = (evt: any) => {
 		console.log(evt.target.dataset);
@@ -81,16 +83,18 @@
 		window.location.reload();
 	};
 
-	const save_srv = async (srv_name: string) => {
+	const save_srv = async (srv_name: string, default_hdr: string) => {
 		localStorage.removeItem('output');
 		const req = await fetch('http://localhost:8082/api/srv/add', {
 			method: 'POST',
 			body: JSON.stringify({
-				srv_name: srv_name
+				srv_name: srv_name,
+				default_hdr: default_hdr
 			})
 		});
 		const res = await req.json();
 		localStorage.setItem('output', JSON.stringify(res, null, 4));
+		window.location.reload();
 	};
 
 	const handleSelect = (evt: any) => {
@@ -169,6 +173,13 @@
 					id="srv_name"
 					name="srv_name"
 					placeholder="Enter the Srv Name."
+				/>
+				<input
+					class="border w-full"
+					id="default_hdr"
+					name="default_hdr"
+					bind:value={default_hdr}
+					placeholder="Enter the default_hdr for the new Srv."
 				/>
 			</div>
 		</div>

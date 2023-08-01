@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ApiData, Param } from '$lib';
+	import type { ApiData } from '$lib';
 	import Messagewarpper from './messagewarpper.svelte';
 
 	export let api: ApiData | undefined;
@@ -45,7 +45,7 @@
 								bind:value={param.value}
 								on:change={() => (param.value = param.value.toUpperCase())}
 								required={param.is_required}
-								class="w-[23vw] border float-right text-left bg-slate-300"
+								class="w-[24vw] border float-right text-left text-slate-600 bg-slate-300"
 							/>
 						</label>
 					</div>

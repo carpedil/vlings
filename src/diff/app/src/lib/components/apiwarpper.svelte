@@ -10,7 +10,8 @@
 		api_name: '',
 		api_content: '',
 		api_param: [],
-		test_count: 0
+		test_count: 0,
+		is_inuse: 'Y'
 	};
 
 	onMount(() => {
@@ -34,7 +35,9 @@
 			<input
 				type="button"
 				value={api.api_name}
-				class="border bg-slate-400 p-1 m-1 text-sm text-yellow-50 hover:bg-orange-500 active:bg-orange-600 focus:bg-orange-600 rounded-md"
+				class="border {api.is_inuse == 'Y'
+					? `bg-green-400`
+					: `bg-red-400 `} p-1 m-1 text-sm text-yellow-50 hover:bg-blue-500 active:bg-blue-600 focus:bg-blue-600 rounded-md"
 				on:click={handleApiClick}
 			/>
 		{/each}

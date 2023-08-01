@@ -7,6 +7,7 @@
 	let select_srv: SrvData = {
 		id: '',
 		srv_name: '',
+		default_hdr: '',
 		api_list: []
 	};
 	onMount(async () => {
