@@ -50,6 +50,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 		mut srv_dto := SrvDataDto{}
 		srv_dto.id = srv.id
 		srv_dto.srv_name = srv.srv_name
+		srv_dto.default_hdr = srv.default_hdr
 		mut api_list := []ApiDataDto{}
 		for api in srv.api_list {
 			api_dto := ApiDataDto{
