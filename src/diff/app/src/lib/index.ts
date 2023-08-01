@@ -17,5 +17,6 @@ export type ApiData = {
 export type SrvData = {
 	id: string;
 	srv_name: string;
+	default_hdr: string;
 	api_list: ApiData[];
 };

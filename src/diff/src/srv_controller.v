@@ -18,6 +18,7 @@ pub fn (mut app App) srv_save() !vweb.Result {
 	//  todo save data to db
 	sd := SrvData{
 		srv_name: data.srv_name
+		default_hdr: data.default_hdr
 	}
 	mut insert_error := ''
 	sql db {
@@ -53,7 +54,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 		srv_dto.default_hdr = srv.default_hdr
 		mut api_list := []ApiDataDto{}
 		for api in srv.api_list {
-			api_dto := ApiDataDto{
+			mut api_dto := ApiDataDto{
 				id: api.id
 				srv_id: api.srv_id
 				api_name: api.api_name
@@ -61,7 +62,12 @@ pub fn (mut app App) srv_list() !vweb.Result {
 				api_param: json.decode([]Param, api.api_param)!
 				is_inuse: api.is_inuse
 			}
-
+			// set default header for api hdr
+			for mut param in api_dto.api_param {
+				if param.key == 'HDR' {
+					param.value = srv_dto.default_hdr
+				}
+			}
 			// dump(api_dto)
 			api_list << api_dto
 		}

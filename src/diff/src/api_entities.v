@@ -23,7 +23,8 @@ mut:
 }
 
 struct Param {
-	key         string
+	key string
+mut:
 	value       string
 	is_required bool
 }
