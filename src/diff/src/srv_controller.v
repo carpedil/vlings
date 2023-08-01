@@ -14,6 +14,7 @@ pub fn (mut app App) srv_save() !vweb.Result {
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: ${err}')
 	}
+
 	//  todo save data to db
 	sd := SrvData{
 		srv_name: data.srv_name
@@ -40,6 +41,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 	results := sql db {
 		select from SrvData
 	}!
+
 	// println('===========================')
 	// dump(results)
 	// println('===========================')
@@ -58,11 +60,13 @@ pub fn (mut app App) srv_list() !vweb.Result {
 				api_param: json.decode([]Param, api.api_param)!
 				is_inuse: api.is_inuse
 			}
+
 			// dump(api_dto)
 			api_list << api_dto
 		}
 		srv_dto.api_list = api_list
-		dump(srv_dto)
+
+		// dump(srv_dto)
 		srv_list << srv_dto
 	}
 

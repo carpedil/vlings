@@ -12,6 +12,7 @@ export type ApiData = {
 	api_content: string;
 	api_param: Param[];
 	test_count: number;
+	is_inuse: string;
 };
 export type SrvData = {
 	id: string;

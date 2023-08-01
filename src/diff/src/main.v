@@ -6,9 +6,8 @@ import os
 import net
 import log
 
-
 const (
-	port = 8082
+	port        = 8082
 	local_saddr = 'localhost:6020'
 	local_paddr = '10.8.3.125:6020'
 )
@@ -20,7 +19,6 @@ struct App {
 pub fn (mut app App) before_request() {
 	println('[web] before_request: ${app.req.method} ${app.req.url} -> ${app.req.data}')
 }
-
 
 fn main() {
 	mut loger := log.Log{}
@@ -57,7 +55,6 @@ pub fn (mut app App) index() vweb.Result {
 pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
 }
-
 
 fn local_tcp_listener_setup(mut loger log.Log) {
 	mut listener := net.listen_tcp(.ip, local_saddr) or { panic(err) }

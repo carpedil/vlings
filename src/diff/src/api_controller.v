@@ -4,7 +4,6 @@ import vweb
 import json
 import databases
 
-
 ['/api/add'; post]
 pub fn (mut app App) api_save() !vweb.Result {
 	mut db := databases.create_db_connection() or { panic(err) }
@@ -47,6 +46,55 @@ pub fn (mut app App) api_save() !vweb.Result {
 	return app.json(api_dto)
 }
 
+struct DelApiInput {
+	id int
+}
+
+['/api/del'; post]
+pub fn (mut app App) del_api_by_id() !vweb.Result {
+	mut db := databases.create_db_connection() or { panic(err) }
+	defer {
+		db.close() or { panic(err) }
+	}
+	input := json.decode(DelApiInput, app.req.data)!
+	dump(input)
+	mut error_msg := ''
+	sql db {
+		delete from ApiData where id == input.id
+	} or { error_msg = err.msg() }
+
+	if error_msg != '' {
+		app.set_status(500, '')
+		return app.json(error_msg)
+	}
+	return app.json(input)
+}
+
+struct ValidationInput {
+	id         int
+	validation string
+}
+
+['/api/validation'; post]
+pub fn (mut app App) api_validation_by_id() !vweb.Result {
+	mut db := databases.create_db_connection() or { panic(err) }
+	defer {
+		db.close() or { panic(err) }
+	}
+	input := json.decode(ValidationInput, app.req.data)!
+	dump(input)
+	mut error_msg := ''
+	sql db {
+		update ApiData set is_inuse = input.validation where id == input.id
+	} or { error_msg = err.msg() }
+
+	if error_msg != '' {
+		app.set_status(500, '')
+		return app.json(error_msg)
+	}
+	return app.json('update successfully！')
+}
+
 //  " GETLOTINFO   HDR=  LOT=       OPERATOR= "
 fn extract_api_name(contents string) string {
 	return contents.split(' ')[0]
@@ -68,4 +116,3 @@ fn extract_params(contents string) string {
 	}
 	return json.encode(params)
 }
-

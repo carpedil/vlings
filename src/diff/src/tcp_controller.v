@@ -1,4 +1,4 @@
-module main 
+module main
 
 import vweb
 import net
@@ -7,15 +7,15 @@ import time
 import json
 
 struct MessageBody {
-	msg string
+	msg         string
 	srv_ip_list []string
 }
 
 ['/api/message/send'; post]
 pub fn (mut app App) message_send() !vweb.Result {
-	message_body := json.decode(MessageBody,app.req.data)!
+	message_body := json.decode(MessageBody, app.req.data)!
 	mut loger := log.Log{}
-	handle_connect_and_send(message_body.srv_ip_list,mut loger)
+	handle_connect_and_send(message_body.srv_ip_list, mut loger)
 	return app.json('message has been sent')
 }
 

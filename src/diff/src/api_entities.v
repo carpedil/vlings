@@ -8,10 +8,8 @@ struct ApiData {
 	api_content string [nonnull; sql_type: 'TEXT']
 	api_param   string [nonnull; sql_type: 'TEXT']
 	test_count  int    [default: '0'] // 测试次数，不太准确，但可以作为排序算法的参数。 有利于SNI
-	is_inuse 	string   [default: 'Y']
+	is_inuse    string [default: 'Y']
 }
-
-
 
 struct ApiDataDto {
 mut:
@@ -21,7 +19,7 @@ mut:
 	api_content string
 	api_param   []Param
 	test_count  int
-	is_inuse 	string 
+	is_inuse    string
 }
 
 struct Param {

@@ -22,6 +22,40 @@
 		save_srv(srv_name.value);
 		srv_name.value = '';
 	};
+	const delApi = (evt: any) => {
+		console.log(evt.target.dataset);
+		del_api(Number(evt.target.dataset.api_id));
+	};
+
+	const del_api = async (id: number) => {
+		const req = await fetch('http://localhost:8082/api/del', {
+			method: 'POST',
+			body: JSON.stringify({
+				id: id
+			})
+		});
+		const res = await req.json();
+		alert(res);
+		window.location.reload();
+	};
+
+	const apiValidation = (evt: any) => {
+		validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
+	};
+
+	const validation_api = async (id: number, curr_validation: string) => {
+		const req = await fetch('http://localhost:8082/api/validation', {
+			method: 'POST',
+			body: JSON.stringify({
+				id: id,
+				validation: curr_validation == 'Y' ? 'N' : 'Y'
+			})
+		});
+		const res = await req.json();
+		alert(res);
+		window.location.reload();
+	};
+
 	const save_api = async (srv_id: number, api_content: string) => {
 		output = '';
 		const req = await fetch('http://localhost:8082/api/add', {
@@ -75,6 +109,7 @@
 		// set default api_list for the first srv name in the list
 		const id = Number(localStorage.getItem('selected_srv_id'));
 		curr_srv_api = id ? srv_list[id - 1].api_list : srv_list[0].api_list;
+		console.log(curr_srv_api);
 	});
 </script>
 
@@ -133,19 +168,43 @@
 	</div>
 	<div class="border bg-white w-full h-[74vh]">
 		<div class="h-[44vh] overflow-y-scroll border">
-			<table class="w-full border border-separate">
+			<table class="w-full border border-separate text-sm">
 				<tr class="text-left">
 					<th class="w-[2vw] text-center">#</th>
-					<th class="w-[10vw]">API_NAME</th>
+					<th class="w-[9vw]">API_NAME</th>
 					<th>API CONTENT</th>
-					<th class="w-[6vw] text-center">TEST CNT</th>
+					<th class="w-[4vw] text-center">VALID</th>
+					<th class="w-[5vw] text-center">TEST CNT</th>
+					<th class="w-[6vw] text-center">OPERATION</th>
 				</tr>
 				{#each curr_srv_api as api, index}
 					<tr>
 						<td class="border text-center">{index + 1}</td>
 						<td class="border">{api.api_name}</td>
 						<td class="border">{api.api_content}</td>
+						<td
+							class="border text-center {api.is_inuse == 'Y'
+								? `bg-green-400 text-white`
+								: `bg-red-400 text-white`} rounded-sm">{api.is_inuse}</td
+						>
 						<td class="border text-center">{api.test_count}</td>
+						<td class="border text-center">
+							<input
+								type="button"
+								value="DEL"
+								class="text-red-500"
+								data-api_id={api.id}
+								on:click={delApi}
+							/>
+							<input
+								type="button"
+								value={api.is_inuse == 'Y' ? `INVLALID` : `VALID`}
+								class="text-blue-500"
+								data-api_id={api.id}
+								data-validation={api.is_inuse}
+								on:click={apiValidation}
+							/>
+						</td>
 					</tr>
 				{/each}
 			</table>
