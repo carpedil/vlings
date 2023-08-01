@@ -21,6 +21,16 @@
 		}
 
 		console.log(`Sending msg ${msg} to ${srv_ip_list.toString()}`);
+		const req = await fetch('http://localhost:8082/api/message/send', {
+			method: 'POST',
+			body: JSON.stringify({
+				msg: msg,
+				srv_ip_list: srv_ip_list
+			})
+		});
+		const res = await req.json();
+		console.log(res);
+		// alert(res.msg);
 	};
 
 	const getSrvIpList: () => string[] = () => {
