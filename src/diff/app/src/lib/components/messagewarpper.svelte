@@ -3,6 +3,7 @@
 
 	export let msg: string;
 	let srv_ip_list: string[] = [];
+	let callback_msg: string = '';
 
 	const handleSend = async () => {
 		srv_ip_list = getSrvIpList();
@@ -30,6 +31,7 @@
 		});
 		const res = await req.json();
 		console.log(res);
+		callback_msg = set_up_ws(msg);
 	};
 
 	const getSrvIpList: () => string[] = () => {
@@ -53,33 +55,41 @@
 		console.log(ip_list);
 		return ip_list;
 	};
+
+	const set_up_ws = (test_msg: string): string => {
+		let callback_msg: string = '';
+		let socket = new WebSocket('ws://localhost:30000');
+		socket.onopen = function (e) {
+			console.log('[open] Connection established');
+			console.log('Sending to server');
+			socket.send(test_msg);
+		};
+
+		socket.onmessage = function (event) {
+			console.log(`[message] Data received from server: ${event.data}`);
+			callback_msg = event.data;
+			console.log('callback_msg=', callback_msg);
+		};
+
+		socket.onclose = function (event) {
+			if (event.wasClean) {
+				console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+			} else {
+				// e.g. server process killed or network down
+				// event.code is usually 1006 in this case
+				alert('[close] Connection died');
+			}
+		};
+
+		socket.onerror = function (error) {
+			alert(`[error]${JSON.stringify(error, null, 4)}`);
+		};
+		return callback_msg;
+	};
 	onMount(() => {
 		console.log('msg:', msg, msg.length);
-		// let socket = new WebSocket('ws://localhost:30000');
-		// socket.onopen = function (e) {
-		// 	console.log('[open] Connection established');
-		// 	console.log('Sending to server');
-		// 	socket.send('My name is John');
-		// };
-
-		// socket.onmessage = function (event) {
-		// 	console.log(`[message] Data received from server: ${event.data}`);
-		// };
-
-		// socket.onclose = function (event) {
-		// 	if (event.wasClean) {
-		// 		console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-		// 	} else {
-		// 		// e.g. server process killed or network down
-		// 		// event.code is usually 1006 in this case
-		// 		alert('[close] Connection died');
-		// 	}
-		// };
-
-		// socket.onerror = function (error) {
-		// 	alert(`[error]${error}`);
-		// };
 	});
+	$: console.log(callback_msg);
 </script>
 
 <div class="flex flex-col justify-evenly border w-full h-[73vh] p-1">
@@ -101,6 +111,6 @@
 		</div>
 		{msg}
 	</div>
-	<div class="border w-full h-[73vh] p-1">left:</div>
-	<div class="border w-full h-[73vh] p-1">right</div>
+	<div class="border w-full h-[73vh] p-1">{@html callback_msg}</div>
+	<div class="border w-full h-[73vh] p-1">{@html callback_msg}</div>
 </div>
