@@ -28,6 +28,7 @@ fn main() {
 	loger.log_to_console_too()
 
 	spawn local_tcp_listener_setup(mut &loger)
+	spawn start_server()
 
 	mut db := databases.create_db_connection() or { panic(err) }
 
