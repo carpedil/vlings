@@ -2,7 +2,6 @@
 	import type { SrvData, ApiData } from '$lib';
 	import { onMount } from 'svelte';
 
-	let select_srv: SrvData;
 	let curr_srv_api: ApiData[] = [];
 	let srv_list: SrvData[] = [];
 	let output: string = '';
@@ -30,6 +29,7 @@
 	};
 
 	const del_api = async (id: number) => {
+		localStorage.removeItem('output');
 		const req = await fetch('http://localhost:8082/api/del', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -37,17 +37,22 @@
 			})
 		});
 		const res = await req.json();
-		alert(res);
+		localStorage.setItem('output', JSON.stringify(res, null, 4));
 		window.location.reload();
 	};
 
 	const apiValidation = (evt: any) => {
-		if (confirm('Are you sure you want to delete this API?')) {
+		if (
+			confirm(
+				`Confirm to make this API ${evt.target.dataset.validation == 'Y' ? `INVALID` : `VALID`} ?`
+			)
+		) {
 			validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
 		}
 	};
 
 	const validation_api = async (id: number, curr_validation: string) => {
+		localStorage.removeItem('output');
 		const req = await fetch('http://localhost:8082/api/validation', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -56,12 +61,13 @@
 			})
 		});
 		const res = await req.json();
-		alert(res);
+		console.log(res);
+		localStorage.setItem('output', JSON.stringify(res, null, 4));
 		window.location.reload();
 	};
 
 	const save_api = async (srv_id: number, api_content: string) => {
-		output = '';
+		localStorage.removeItem('output');
 		const req = await fetch('http://localhost:8082/api/add', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -71,15 +77,12 @@
 		});
 		const res = await req.json();
 
-		output = res;
-		// curr_srv_api = srv_list.filter((srv: any) => {
-		// 	return srv.id == select_srv;
-		// })[0].api_list;
+		localStorage.setItem('output', JSON.stringify(res, null, 4));
 		window.location.reload();
 	};
 
 	const save_srv = async (srv_name: string) => {
-		output = '';
+		localStorage.removeItem('output');
 		const req = await fetch('http://localhost:8082/api/srv/add', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -87,11 +90,10 @@
 			})
 		});
 		const res = await req.json();
-		output = res;
+		localStorage.setItem('output', JSON.stringify(res, null, 4));
 	};
 
 	const handleSelect = (evt: any) => {
-		output = '';
 		localStorage.removeItem('selected_srv_id');
 		let select_srv_id = evt.currentTarget.value;
 
@@ -114,6 +116,7 @@
 		const id = Number(localStorage.getItem('selected_srv_id'));
 		curr_srv_api = id ? srv_list[id - 1].api_list : srv_list[0].api_list;
 		console.log(curr_srv_api);
+		output = localStorage.getItem('output')!;
 	});
 </script>
 
@@ -215,7 +218,7 @@
 		</div>
 		<hr />
 		<div class="h-[28vh] overflow-y-scroll text-sm p-1">
-			<pre>{output ? JSON.stringify(output, null, 4) : ''}</pre>
+			<pre>{output ? output : ''}</pre>
 		</div>
 	</div>
 </div>

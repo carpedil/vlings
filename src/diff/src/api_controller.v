@@ -67,7 +67,7 @@ pub fn (mut app App) del_api_by_id() !vweb.Result {
 		app.set_status(500, '')
 		return app.json(error_msg)
 	}
-	return app.json(input)
+	return app.json('api:${input.id} has been deleted!')
 }
 
 struct ValidationInput {
@@ -92,7 +92,7 @@ pub fn (mut app App) api_validation_by_id() !vweb.Result {
 		app.set_status(500, '')
 		return app.json(error_msg)
 	}
-	return app.json('update successfully！')
+	return app.json('update successfully!')
 }
 
 //  " GETLOTINFO   HDR=  LOT=       OPERATOR= "
