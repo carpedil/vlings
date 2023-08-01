@@ -30,7 +30,6 @@
 		});
 		const res = await req.json();
 		console.log(res);
-		// alert(res.msg);
 	};
 
 	const getSrvIpList: () => string[] = () => {
@@ -56,6 +55,30 @@
 	};
 	onMount(() => {
 		console.log('msg:', msg, msg.length);
+		// let socket = new WebSocket('ws://localhost:30000');
+		// socket.onopen = function (e) {
+		// 	console.log('[open] Connection established');
+		// 	console.log('Sending to server');
+		// 	socket.send('My name is John');
+		// };
+
+		// socket.onmessage = function (event) {
+		// 	console.log(`[message] Data received from server: ${event.data}`);
+		// };
+
+		// socket.onclose = function (event) {
+		// 	if (event.wasClean) {
+		// 		console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+		// 	} else {
+		// 		// e.g. server process killed or network down
+		// 		// event.code is usually 1006 in this case
+		// 		alert('[close] Connection died');
+		// 	}
+		// };
+
+		// socket.onerror = function (error) {
+		// 	alert(`[error]${error}`);
+		// };
 	});
 </script>
 
