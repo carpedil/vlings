@@ -70,6 +70,10 @@
 
 	const save_api = async (srv_id: number, api_content: string) => {
 		localStorage.removeItem('output');
+		if (api_content == '' || api_content == null) {
+			alert('Please enter API content');
+			return;
+		}
 		const req = await fetch('http://localhost:8082/api/add', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -85,6 +89,10 @@
 
 	const save_srv = async (srv_name: string, default_hdr: string) => {
 		localStorage.removeItem('output');
+		if (srv_name == '' || srv_name == null) {
+			alert('Please enter Srv Name');
+			return;
+		}
 		const req = await fetch('http://localhost:8082/api/srv/add', {
 			method: 'POST',
 			body: JSON.stringify({

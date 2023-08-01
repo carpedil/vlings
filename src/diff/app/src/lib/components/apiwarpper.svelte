@@ -21,7 +21,6 @@
 	const handleApiClick = (evt: any) => {
 		evt.preventDefault();
 		const api_name = evt.target.getAttribute('value');
-		console.log(api_name);
 		api = api_list.find((api) => api.api_name === api_name);
 		console.log(api);
 	};
@@ -29,7 +28,7 @@
 
 <!-- container -->
 <div class="border bg-white h-[15vh] p-1">
-	<span class="border-b-orange-600 border-t-0 border-l-0 border-r-0 border-4">API LIST:</span>
+	<span class="border border-t-0 border-l-0 border-r-0">API LIST:</span>
 	<div class="h-[12vh] w-full float-left overflow-y-scroll scroll-auto">
 		{#each api_list as api}
 			<input
@@ -37,7 +36,7 @@
 				value={api.api_name}
 				class="border {api.is_inuse == 'Y'
 					? `bg-green-400`
-					: `bg-red-400 `} p-1 m-1 text-sm text-yellow-50 hover:bg-blue-500 active:bg-blue-600 focus:bg-blue-600 rounded-md"
+					: `bg-red-400 `} p-1 m-1 text-sm text-yellow-50 hover:bg-blue-500 active:bg-blue-500 focus:bg-blue-500 rounded-md"
 				on:click={handleApiClick}
 			/>
 		{/each}

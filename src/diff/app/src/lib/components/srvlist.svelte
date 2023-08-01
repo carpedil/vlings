@@ -29,7 +29,7 @@
 </script>
 
 <div class="border w-[12vw] p-1">
-	<span class="border-b-red-600 border-t-0 border-l-0 border-r-0 border-4">SRV LIST:</span>
+	<span class="border-t-0 border-l-0 border-r-0 border">SRV LIST:</span>
 	<div class="flex flex-col">
 		{#each srv_list as srv}
 			<label for={srv.id}>

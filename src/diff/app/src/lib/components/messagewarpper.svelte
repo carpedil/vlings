@@ -66,7 +66,7 @@
 				type="button"
 				value="SEND"
 				class="border pl-2 pr-2 mr-5 bg-blue-600 text-white rounded-md"
-				on:dblclick={handleSend}
+				on:click={handleSend}
 			/>
 			<label for="old"
 				><input type="checkbox" value="10.9.64.28" id="old" name="test_srv_list" checked /> 10.9.64.28</label
