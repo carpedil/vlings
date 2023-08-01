@@ -24,7 +24,9 @@
 	};
 	const delApi = (evt: any) => {
 		console.log(evt.target.dataset);
-		del_api(Number(evt.target.dataset.api_id));
+		if (confirm('Are you sure you want to delete this API?')) {
+			del_api(Number(evt.target.dataset.api_id));
+		}
 	};
 
 	const del_api = async (id: number) => {
@@ -40,7 +42,9 @@
 	};
 
 	const apiValidation = (evt: any) => {
-		validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
+		if (confirm('Are you sure you want to delete this API?')) {
+			validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
+		}
 	};
 
 	const validation_api = async (id: number, curr_validation: string) => {
@@ -169,8 +173,8 @@
 	<div class="border bg-white w-full h-[74vh]">
 		<div class="h-[44vh] overflow-y-scroll border">
 			<table class="w-full border border-separate text-sm">
-				<tr class="text-left">
-					<th class="w-[2vw] text-center">#</th>
+				<tr class="bg-white text-left sticky top-0">
+					<th class="w-[2vw] text-center bg-blue-600 text-white">{curr_srv_api.length}</th>
 					<th class="w-[9vw]">API_NAME</th>
 					<th>API CONTENT</th>
 					<th class="w-[4vw] text-center">VALID</th>
@@ -188,7 +192,7 @@
 								: `bg-red-400 text-white`} rounded-sm">{api.is_inuse}</td
 						>
 						<td class="border text-center">{api.test_count}</td>
-						<td class="border text-center">
+						<td class="border text-center float-left">
 							<input
 								type="button"
 								value="DEL"
