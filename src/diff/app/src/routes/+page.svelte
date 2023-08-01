@@ -33,11 +33,11 @@
 		});
 		const res = await req.json();
 
-		// window.location.reload();
 		output = res;
-		curr_srv_api = srv_list.filter((srv: any) => {
-			return srv.id == select_srv;
-		})[0].api_list;
+		// curr_srv_api = srv_list.filter((srv: any) => {
+		// 	return srv.id == select_srv;
+		// })[0].api_list;
+		window.location.reload();
 	};
 
 	const save_srv = async (srv_name: string) => {
@@ -49,17 +49,20 @@
 			})
 		});
 		const res = await req.json();
-		window.location.reload();
 		output = res;
 	};
 
 	const handleSelect = (evt: any) => {
-		select_srv = evt.currentTarget.value;
-		console.log(select_srv);
+		output = '';
+		localStorage.removeItem('selected_srv_id');
+		let select_srv_id = evt.currentTarget.value;
+
+		localStorage.setItem('selected_srv_id', select_srv_id);
+
 		curr_srv_api = srv_list.filter((srv: any) => {
-			return srv.id == select_srv;
+			return srv.id == select_srv_id;
 		})[0].api_list;
-		console.log('=======>\n', curr_srv_api);
+		console.log('selected_srv_data:\n', curr_srv_api);
 	};
 	onMount(async () => {
 		const req = await fetch('http://localhost:8082/api/srv/list', {
@@ -68,9 +71,10 @@
 		const res = await req.json();
 
 		srv_list = res;
-		console.log(srv_list);
+		// console.log(srv_list);
 		// set default api_list for the first srv name in the list
-		curr_srv_api = srv_list[0].api_list;
+		const id = Number(localStorage.getItem('selected_srv_id'));
+		curr_srv_api = id ? srv_list[id - 1].api_list : srv_list[0].api_list;
 	});
 </script>
 
@@ -83,7 +87,9 @@
 
 					<select name="srv_list" id="srv_list" class="ml-5 mr-5" on:change={handleSelect}>
 						{#each srv_list as srv}
-							<option value={srv.id} selected={srv.id == '5'}>{srv.srv_name}</option>
+							<option value={srv.id} selected={srv.id == localStorage.getItem('selected_srv_id')}
+								>{srv.srv_name}</option
+							>
 						{/each}
 					</select>
 					<input
@@ -91,7 +97,6 @@
 						value="NEW API"
 						class="border pr-4 pl-4 bg-red-600 text-white float-right rounded-sm"
 						on:click={submit_api}
-						disabled
 					/>
 				</div>
 				<hr />
@@ -116,7 +121,6 @@
 					value="NEW SRV"
 					class="border pr-4 pl-4 bg-orange-600 text-white float-right rounded-sm"
 					on:click={submit_srv}
-					disabled
 				/>
 				<input
 					class="border w-full"
