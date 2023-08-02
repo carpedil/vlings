@@ -1,4 +1,4 @@
-module databases
+module dba
 
 import db.sqlite // can change to 'db.mysql', 'db.pg'
 

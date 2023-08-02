@@ -2,11 +2,11 @@ module main
 
 import vweb
 import json
-import databases
+import dba
 
 ['/api/srv/add'; post]
 pub fn (mut app App) srv_save() !vweb.Result {
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 	defer {
 		db.close() or { panic(err) }
 	}
@@ -35,7 +35,7 @@ pub fn (mut app App) srv_save() !vweb.Result {
 
 ['/api/srv/list'; get]
 pub fn (mut app App) srv_list() !vweb.Result {
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 	defer {
 		db.close() or { panic(err) }
 	}

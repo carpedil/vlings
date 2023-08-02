@@ -1,12 +1,12 @@
 module main
 
 import vweb
-import databases
+import dba
 import os
 import log
-import inis
+import config
 
-const conf = inis.new_test_config()
+const conf = config.new_test_config()
 
 struct App {
 	vweb.Context // pub mut:
@@ -25,7 +25,7 @@ fn main() {
 
 	// spawn local_tcp_listener_setup(msg_chan, mut &loger)
 	// spawn start_server()
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 
 	sql db {
 		create table ApiData

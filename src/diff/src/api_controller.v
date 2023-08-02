@@ -2,11 +2,11 @@ module main
 
 import vweb
 import json
-import databases
+import dba
 
 ['/api/add'; post]
 pub fn (mut app App) api_save() !vweb.Result {
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 	defer {
 		db.close() or { panic(err) }
 	}
@@ -52,7 +52,7 @@ struct DelApiInput {
 
 ['/api/del'; post]
 pub fn (mut app App) del_api_by_id() !vweb.Result {
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 	defer {
 		db.close() or { panic(err) }
 	}
@@ -77,7 +77,7 @@ struct ValidationInput {
 
 ['/api/validation'; post]
 pub fn (mut app App) api_validation_by_id() !vweb.Result {
-	mut db := databases.create_db_connection() or { panic(err) }
+	mut db := dba.create_db_connection() or { panic(err) }
 	defer {
 		db.close() or { panic(err) }
 	}
