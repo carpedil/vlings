@@ -11,15 +11,17 @@ struct MessageBody {
 	srv_ip_list []string
 }
 
+const ping_msg = r'GETLOTINFO HDR=QUERY_SRV,FANET,WIN10-OSF2,JOBIN,3.0.0.204,5 DATETIME=20230727114155 LOT=WQB05596.1 OPERATOR=OSFPQ02068'
+
 ['/api/message/send'; post]
 pub fn (mut app App) message_send() !vweb.Result {
 	message_body := json.decode(MessageBody, app.req.data)!
 	mut loger := log.Log{}
-	handle_connect_and_send(message_body.srv_ip_list, mut loger)
+	handle_connect_and_send(message_body.msg.trim_space(),message_body.srv_ip_list, mut loger)
 	return app.json('message has been sent')
 }
 
-fn handle_connect_and_send(addrs []string, mut l log.Log) {
+fn handle_connect_and_send(msg string ,addrs []string, mut l log.Log) {
 	l.info('Remote Tcp Server List : ${addrs}...')
 	for addr in addrs {
 		l.info('try to connect Remote Tcp Server @${addr}...')
@@ -29,8 +31,7 @@ fn handle_connect_and_send(addrs []string, mut l log.Log) {
 		}
 		l.info('connected server @${conn.addr()}')
 
-		// GETLOTINFO HDR=QUERY_SRV,FANET,WIN10-OSF2,JOBIN,3.0.0.204,5 DATETIME=20230727114155 LOT=WQB05596.1 OPERATOR=OSFPQ02068
-		message := r'CHGLOTCMT HDR=CLOT_SRV,FANET,WIN10-OSF2,CLOTCMT,3.0.0.151,130 DATETIME=20230613113534 OPERATOR=OSFPQ02068 LOT=WQB05215.1 CMT="new cc comment"'
+		message := if msg == 'PING' {ping_msg} else {msg}
 
 		ms := parse_message(message)
 		l.info('[Send Message]:${ms}')
