@@ -5,11 +5,6 @@ import net
 import net.websocket
 import sync
 
-const (
-	local_paddr = '10.8.3.125:6020'
-	server_port = '6612'
-)
-
 fn slog(message string) {
 	eprintln(term.colorize(term.bright_yellow, message))
 }
@@ -37,7 +32,7 @@ fn get_msg(ch chan string) string {
 // start_server starts the websocket server, it receives messages
 // and send it back to the client that sent it
 pub fn start_server() ! {
-	mut s := websocket.new_server(.ip, 30000, '10.8.3.125')
+	mut s := websocket.new_server(.ip, conf.socket_port, conf.socket_host)
 	defer {
 		unsafe {
 			s.free()
@@ -58,7 +53,7 @@ pub fn start_server() ! {
 	s.on_message(fn (mut ws websocket.Client, msg &websocket.Message) ! {
 		slog('s.on_message msg.opcode: ${msg.opcode} | msg.payload: ${msg.payload.bytestr()}')
 		addrs, message := parse_client_message(msg.payload.bytestr())
-		local_tcp_listener_setup( message, addrs, mut ws, msg)!
+		local_tcp_listener_setup(message, addrs, mut ws, msg)!
 	})
 	s.on_close(fn (mut ws websocket.Client, code int, reason string) ! {
 		slog('s.on_close code: ${code}, reason: ${reason}')
@@ -78,8 +73,8 @@ fn parse_client_message(payload string) (string, string) {
 	return addrs, msg
 }
 
-fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Client, msg &websocket.Message) ! {
-	mut listener := net.listen_tcp(.ip, local_paddr) or { panic(err) }
+fn local_tcp_listener_setup(message string, addr string, mut ws websocket.Client, msg &websocket.Message) ! {
+	mut listener := net.listen_tcp(.ip, conf.local_tcp_addr) or { panic(err) }
 	defer {
 		listener.close() or { panic(err) }
 		slog('Tcp Listener closed')
@@ -87,8 +82,7 @@ fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Clien
 	slog('Tcp Listener Get Local Ip Address@${listener.addr()}')
 
 	mut wg := sync.new_waitgroup()
-	spawn handle_connect_and_send(mut wg,message, addr)
-	
+	spawn handle_connect_and_send(mut wg, message, addr)
 
 	for {
 		mut conn := listener.accept() or { panic(err) }
@@ -108,7 +102,7 @@ fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Clien
 		received := buf[0..nbytes].bytestr()
 
 		slog('[${conn.peer_addr()}][Received Message]:${received}')
-		payload := "${conn.peer_ip()}|${received}"
+		payload := '${conn.peer_ip()}|${received}'
 		ws.write(payload.bytes(), msg.opcode) or {
 			clog('ws.write err: ${err}')
 			return err
@@ -117,13 +111,13 @@ fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Clien
 	wg.wait()
 }
 
-fn handle_connect_and_send(mut wg sync.WaitGroup,message string, addr string) ! {
+fn handle_connect_and_send(mut wg sync.WaitGroup, message string, addr string) ! {
 	defer {
 		wg.done()
 	}
 	wg.add(1)
-	slog('try to connect Remote Tcp Server @${addr}:${server_port}')
-	mut conn := connect_to_server('${addr}:${server_port}') or { return }
+	slog('try to connect Remote Tcp Server @${addr}')
+	mut conn := connect_to_server('${addr}') or { return }
 	defer {
 		conn.close() or { clog('Failed to close connection: ${err}') }
 	}

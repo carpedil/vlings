@@ -4,10 +4,9 @@ import vweb
 import databases
 import os
 import log
+import inis
 
-const (
-	port = 8082
-)
+const conf = inis.new_test_config()
 
 struct App {
 	vweb.Context // pub mut:
@@ -25,8 +24,7 @@ fn main() {
 	loger.log_to_console_too()
 
 	// spawn local_tcp_listener_setup(msg_chan, mut &loger)
-	spawn start_server()
-
+	// spawn start_server()
 	mut db := databases.create_db_connection() or { panic(err) }
 
 	sql db {
@@ -40,9 +38,10 @@ fn main() {
 	// app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
 	// makes all static files available.
 	os.chdir(os.dir(os.executable()))!
-	app.handle_static('_app', true)
+
+	app.handle_static('assets', true)
 	app.mount_static_folder_at(os.resource_abs_path('./templates'), '/')
-	vweb.run_at(app, vweb.RunParams{ host: '10.8.3.125', port: 8082, family: .ip }) or {
+	vweb.run_at(app, vweb.RunParams{ host: conf.host_ip, port: conf.port, family: .ip }) or {
 		panic(err)
 	}
 }
