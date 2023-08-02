@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Apiwarpper from './apiwarpper.svelte';
-	import type { SrvData } from '$lib';
+	import { new_test_config, type SrvData } from '$lib';
+
+	const config = new_test_config()
 
 	let srv_list: SrvData[] = [];
 	let select_srv: SrvData = {
@@ -12,7 +14,7 @@
 	};
 	onMount(async () => {
 		// todo: get all srv list data
-		const req = await fetch('http://10.8.3.125:8082/api/srv/list', {
+		const req = await fetch(`${config.base_url}/api/srv/list`, {
 			method: 'GET'
 		});
 		const res = await req.json();

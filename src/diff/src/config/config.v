@@ -32,7 +32,7 @@ pub fn new_config() Config {
 	return Config{
 		host_ip: '10.8.3.125'
 		port: 8090
-		local_tcp_addr: '10.8.3.125'
+		local_tcp_addr: '10.8.3.125:6020'
 		socket_host: '10.8.3.125'
 		socket_port: 30000
 	}
