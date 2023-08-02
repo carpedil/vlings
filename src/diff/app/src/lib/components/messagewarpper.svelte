@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { callback_msg } from '$lib/stores';
 
 	export let msg: string;
 	let srv_ip_list: string[] = [];
-	let callback_msg: string = '';
 
 	const handleSend = async () => {
 		srv_ip_list = getSrvIpList();
@@ -31,7 +31,7 @@
 		});
 		const res = await req.json();
 		console.log(res);
-		callback_msg = set_up_ws(msg);
+		set_up_ws(msg);
 	};
 
 	const getSrvIpList: () => string[] = () => {
@@ -56,7 +56,7 @@
 		return ip_list;
 	};
 
-	const set_up_ws = (test_msg: string): string => {
+	const set_up_ws = (test_msg: string) => {
 		let callback_msg: string = '';
 		let socket = new WebSocket('ws://localhost:30000');
 		socket.onopen = function (e) {
@@ -69,6 +69,7 @@
 			console.log(`[message] Data received from server: ${event.data}`);
 			callback_msg = event.data;
 			console.log('callback_msg=', callback_msg);
+			updateCallbackMsg(event.data);
 		};
 
 		socket.onclose = function (event) {
@@ -77,14 +78,17 @@
 			} else {
 				// e.g. server process killed or network down
 				// event.code is usually 1006 in this case
-				alert('[close] Connection died');
+				console.log('[close] Connection died');
 			}
 		};
 
 		socket.onerror = function (error) {
-			alert(`[error]${JSON.stringify(error, null, 4)}`);
+			console.log(`[error]${JSON.stringify(error, null, 4)}`);
 		};
-		return callback_msg;
+	};
+
+	const updateCallbackMsg = (data: string) => {
+		callback_msg.update((msg) => (msg = data));
 	};
 	onMount(() => {
 		console.log('msg:', msg, msg.length);
@@ -111,6 +115,6 @@
 		</div>
 		{msg}
 	</div>
-	<div class="border w-full h-[73vh] p-1">{@html callback_msg}</div>
-	<div class="border w-full h-[73vh] p-1">{@html callback_msg}</div>
+	<div class="border w-full h-[73vh] p-1">{@html $callback_msg}</div>
+	<div class="border w-full h-[73vh] p-1">{@html $callback_msg}</div>
 </div>
