@@ -21,7 +21,7 @@ fn handle_conn(mut conn net.TcpConn) ! {
 	}
 
 	println('new connention coming from ${conn.peer_addr()}....')
-	mut client := net.dial_tcp('10.8.3.125:6020') or { panic(err) }
+	mut client := net.dial_tcp('localhost:6020') or { panic(err) }
 	defer {
 		client.close() or { println('Failed to close connection: ${err}') }
 	}
