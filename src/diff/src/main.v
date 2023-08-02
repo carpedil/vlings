@@ -3,13 +3,10 @@ module main
 import vweb
 import databases
 import os
-import net
 import log
 
 const (
 	port        = 8082
-	local_saddr = 'localhost:6020'
-	local_paddr = '10.8.3.125:6020'
 )
 
 struct App {
@@ -27,7 +24,9 @@ fn main() {
 	loger.set_full_logpath('./info.log')
 	loger.log_to_console_too()
 
-	spawn local_tcp_listener_setup(mut &loger)
+
+
+	// spawn local_tcp_listener_setup(msg_chan, mut &loger)
 	spawn start_server()
 
 	mut db := databases.create_db_connection() or { panic(err) }
@@ -62,29 +61,4 @@ pub fn (mut app App) hello() vweb.Result {
 	return app.json('hello')
 }
 
-fn local_tcp_listener_setup(mut loger log.Log) {
-	mut listener := net.listen_tcp(.ip, local_saddr) or { panic(err) }
-	defer {
-		listener.close() or { panic(err) }
-	}
-	loger.info('Tcp Listener Get Local Ip Address@${listener.addr()}')
 
-	for {
-		mut conn := listener.accept() or { panic(err) }
-		defer {
-			conn.close() or {}
-		}
-
-		loger.info('new connention coming from ${conn.peer_addr()}....')
-		mut buf := []u8{len: 4096}
-		nbytes := conn.read(mut buf) or {
-			eprint(err)
-			return
-		}
-		if nbytes == 0 {
-			return
-		}
-		received := buf[0..nbytes].bytestr()
-		loger.info('[Received Message]:${received}')
-	}
-}
