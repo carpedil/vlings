@@ -4,7 +4,7 @@
 
 	let hello: string = '';
 	onMount(async () => {
-		let req = await fetch('http://localhost:8082/api/test/hello', {
+		let req = await fetch('http://10.8.3.125:8082/api/test/hello', {
 			method: 'GET'
 		});
 		hello = await req.json();

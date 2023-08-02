@@ -50,7 +50,7 @@
 
 	const set_up_ws = (test_msg: string) => {
 		let callback_msg: string = '';
-		let socket = new WebSocket('ws://localhost:30000');
+		let socket = new WebSocket('ws://10.8.3.125:30000');
 		socket.onopen = function (e) {
 			console.log('[open] Connection established');
 			console.log('Sending to server');
@@ -105,7 +105,7 @@
 				><input type="checkbox" value="10.162.138.83" id="new" name="test_srv_list" /> 10.162.138.83</label
 			>
 			<label for="new"
-				><input type="checkbox" value="localhost:8090" id="local" name="test_srv_list" checked /> localhost(test
+				><input type="checkbox" value="10.8.3.125:8090" id="local" name="test_srv_list" checked /> 10.8.3.125(test
 				only)</label
 			>
 		</div>

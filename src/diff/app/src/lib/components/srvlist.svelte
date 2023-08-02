@@ -12,7 +12,7 @@
 	};
 	onMount(async () => {
 		// todo: get all srv list data
-		const req = await fetch('http://localhost:8082/api/srv/list', {
+		const req = await fetch('http://10.8.3.125:8082/api/srv/list', {
 			method: 'GET'
 		});
 		const res = await req.json();

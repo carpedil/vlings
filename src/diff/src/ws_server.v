@@ -40,7 +40,7 @@ fn get_msg(ch chan string) string {
 // start_server starts the websocket server, it receives messages
 // and send it back to the client that sent it
 pub fn start_server() ! {
-	mut s := websocket.new_server(.ip, 30000, '')
+	mut s := websocket.new_server(.ip, 30000, '10.8.3.125')
 	defer {
 		unsafe {
 			s.free()
@@ -97,7 +97,7 @@ fn handle_connect_and_send(msg_chan chan string,msg string, addrs []string) {
 	slog('Remote Tcp Server List : ${addrs}...')
 	for addr in addrs {
 		slog('try to connect Remote Tcp Server @${addr}...')
-		mut conn := connect_to_server(addr) or { return }
+		mut conn := connect_to_server(addr) or { continue }
 		defer {
 			conn.close() or { clog('Failed to close connection: ${err}') }
 		}
@@ -133,7 +133,7 @@ fn parse_message(msg string) string {
 
 
 fn local_tcp_listener_setup(msg_chan chan string) {
-	mut listener := net.listen_tcp(.ip, local_saddr) or { panic(err) }
+	mut listener := net.listen_tcp(.ip, local_paddr) or { panic(err) }
 	defer {
 		listener.close() or { panic(err) }
 	}

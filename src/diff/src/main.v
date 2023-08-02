@@ -44,7 +44,7 @@ fn main() {
 	os.chdir(os.dir(os.executable()))!
 	app.handle_static('_app', true)
 	app.mount_static_folder_at(os.resource_abs_path('./templates'), '/')
-	vweb.run(app, port)
+	vweb.run_at(app, vweb.RunParams{ host: '10.8.3.125' port: 8082 family: .ip })or { panic(err) }
 }
 
 pub fn (mut app App) index() vweb.Result {
