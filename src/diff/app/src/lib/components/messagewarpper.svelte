@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { callback_msg } from '$lib/stores';
+	import { callback_msg1, callback_msg2 } from '$lib/stores';
 
 	export let msg: string;
 	let srv_ip_list: string[] = [];
 
 	const handleSend = async () => {
+		callback_msg1.set('');
+		callback_msg2.set('');
 		srv_ip_list = getSrvIpList();
 
 		if (msg.length <= 1) {
@@ -21,9 +23,7 @@
 			return;
 		}
 
-		console.log(`Sending msg ${msg} to ${srv_ip_list}`);
-		let payload = `${srv_ip_list.toString()}>${msg}`;
-		set_up_ws(payload);
+		set_up_ws(srv_ip_list, msg);
 	};
 
 	const getSrvIpList: () => string[] = () => {
@@ -48,19 +48,19 @@
 		return ip_list;
 	};
 
-	const set_up_ws = (test_msg: string) => {
-		let callback_msg: string = '';
+	const set_up_ws = (ip_list: string[], msg: string) => {
 		let socket = new WebSocket('ws://10.8.3.125:30000');
 		socket.onopen = function (e) {
 			console.log('[open] Connection established');
 			console.log('Sending to server');
-			socket.send(test_msg);
+			for (const ip of ip_list) {
+				console.log(`Sending: ${ip}>${msg}`);
+				socket.send(`${ip}>${msg}`);
+			}
 		};
 
 		socket.onmessage = function (event) {
 			console.log(`[message] Data received from server: ${event.data}`);
-			callback_msg = event.data;
-			console.log('callback_msg=', callback_msg);
 			updateCallbackMsg(event.data);
 		};
 
@@ -80,12 +80,15 @@
 	};
 
 	const updateCallbackMsg = (data: string) => {
-		callback_msg.update((msg) => (msg = data));
+		if (data.includes('10.162.138.83')) {
+			callback_msg2.update((msg) => (msg = data));
+		} else {
+			callback_msg1.update((msg) => (msg = data));
+		}
 	};
 	onMount(() => {
 		console.log('msg:', msg, msg.length);
 	});
-	$: console.log(callback_msg);
 </script>
 
 <div class="flex flex-col justify-evenly border w-full h-[73vh] p-1">
@@ -104,13 +107,13 @@
 			<label for="new"
 				><input type="checkbox" value="10.162.138.83" id="new" name="test_srv_list" /> 10.162.138.83</label
 			>
-			<label for="new"
-				><input type="checkbox" value="10.8.3.125:8090" id="local" name="test_srv_list" checked /> 10.8.3.125(test
+			<label for="local"
+				><input type="checkbox" value="10.8.3.125" id="local" name="test_srv_list" checked /> 10.8.3.125(test
 				only)</label
 			>
 		</div>
 		{msg}
 	</div>
-	<div class="border w-full h-[73vh] p-1">{@html $callback_msg}</div>
-	<div class="border w-full h-[73vh] p-1">{@html $callback_msg}</div>
+	<div class="border w-full h-[73vh] p-1">{@html $callback_msg1}</div>
+	<div class="border w-full h-[73vh] p-1">{@html $callback_msg2}</div>
 </div>
