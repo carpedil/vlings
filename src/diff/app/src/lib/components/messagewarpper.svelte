@@ -21,17 +21,9 @@
 			return;
 		}
 
-		console.log(`Sending msg ${msg} to ${srv_ip_list.toString()}`);
-		const req = await fetch('http://localhost:8082/api/message/send', {
-			method: 'POST',
-			body: JSON.stringify({
-				msg: msg,
-				srv_ip_list: srv_ip_list
-			})
-		});
-		const res = await req.json();
-		console.log(res);
-		set_up_ws(msg);
+		console.log(`Sending msg ${msg} to ${srv_ip_list}`);
+		let payload = `${srv_ip_list.toString()}>${msg}`;
+		set_up_ws(payload);
 	};
 
 	const getSrvIpList: () => string[] = () => {
@@ -106,11 +98,15 @@
 				on:click={handleSend}
 			/>
 			<label for="old"
-				><input type="checkbox" value="10.9.64.28" id="old" name="test_srv_list" checked /> 10.9.64.28</label
+				><input type="checkbox" value="10.9.64.28" id="old" name="test_srv_list" /> 10.9.64.28</label
 			>
 			|
 			<label for="new"
-				><input type="checkbox" value="10.162.138.83" id="new" name="test_srv_list" checked /> 10.162.138.83</label
+				><input type="checkbox" value="10.162.138.83" id="new" name="test_srv_list" /> 10.162.138.83</label
+			>
+			<label for="new"
+				><input type="checkbox" value="localhost:8090" id="local" name="test_srv_list" checked /> localhost(test
+				only)</label
 			>
 		</div>
 		{msg}
