@@ -39,7 +39,7 @@ fn main() {
 	// makes all static files available.
 	os.chdir(os.dir(os.executable()))!
 
-	app.handle_static('assets', true)
+	app.handle_static('_app', true)
 	app.mount_static_folder_at(os.resource_abs_path('./templates'), '/')
 	vweb.run_at(app, vweb.RunParams{ host: conf.host_ip, port: conf.port, family: .ip }) or {
 		panic(err)
