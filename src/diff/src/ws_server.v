@@ -3,6 +3,7 @@ module main
 import term
 import net
 import net.websocket
+import sync
 
 const (
 	local_paddr = '10.8.3.125:6020'
@@ -85,7 +86,8 @@ fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Clien
 	}
 	slog('Tcp Listener Get Local Ip Address@${listener.addr()}')
 
-	h := spawn handle_connect_and_send(message, addr)
+	mut wg := sync.new_waitgroup()
+	spawn handle_connect_and_send(mut wg,message, addr)
 	
 
 	for {
@@ -112,11 +114,14 @@ fn local_tcp_listener_setup( message string, addr string, mut ws websocket.Clien
 			return err
 		}
 	}
-	
-	h.wait()!
+	wg.wait()
 }
 
-fn handle_connect_and_send(message string, addr string) ! {
+fn handle_connect_and_send(mut wg sync.WaitGroup,message string, addr string) ! {
+	defer {
+		wg.done()
+	}
+	wg.add(1)
 	slog('try to connect Remote Tcp Server @${addr}:${server_port}')
 	mut conn := connect_to_server('${addr}:${server_port}') or { return }
 	defer {
