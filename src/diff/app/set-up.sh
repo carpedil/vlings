@@ -25,11 +25,11 @@ echo 'build completed '
 echo 'mv /templates to /diff/src'
 mv ./templates ./../src/
 
-echo 'cd ./templates'
-cd ./../src/templates
+# echo 'cd ./templates'
+# cd ./../src/templates
 
-echo 'mv /templates/_app to /diff/src'
-mv ./_app ./../
-cd ../../app && cp ./static/favicon.png ./../src/
+# echo 'mv /templates/_app to /diff/src'
+# mv ./_app ./../
+# cd ../../app && cp ./static/favicon.png ./../src/
 
 echo 'done~'

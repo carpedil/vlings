@@ -19,4 +19,5 @@ echo back to /app
 cd ..\app
 
 echo starting run build scripts
-npm run format & npm run build & move templates ..\src\templates & cd ..\src\templates & move _app ..\  & cd ..\..\app & copy static\favicon.png ..\src\ 
+npm run format & npm run build & move templates ..\src\templates & cd ..\src\templates 
+@REM & move _app ..\  & cd ..\..\app & copy static\favicon.png ..\src\ 
