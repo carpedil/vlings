@@ -40,16 +40,21 @@ fn main() {
 	db.close() or { panic(err) }
 
 	mut app := &App{}
-	app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
+	// app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
 	// makes all static files available.
 	os.chdir(os.dir(os.executable()))!
-	app.handle_static('assets', true)
-	app.mount_static_folder_at(os.resource_abs_path('.'), '/')
+	app.handle_static('_app', true)
+	app.mount_static_folder_at(os.resource_abs_path('./templates'), '/')
 	vweb.run(app, port)
 }
 
 pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
+}
+
+['/test']
+pub fn (mut app App) test() vweb.Result {
+	return app.redirect('test.html')
 }
 
 ['/api/test/hello']
