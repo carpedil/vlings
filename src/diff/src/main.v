@@ -12,7 +12,7 @@ struct App {
 }
 
 fn main() {
-	spawn start_server()
+	spawn start_socket_server()
 
 	mut db := dba.create_db_connection() or { panic(err) }
 	sql db {
