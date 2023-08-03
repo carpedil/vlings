@@ -19,6 +19,6 @@ bin/
 
 # ENV
 .env
-
+*.log
 # vweb and database
 

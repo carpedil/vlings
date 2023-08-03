@@ -34,3 +34,4 @@ node_modules
 !.env.example
 vite.*.js.timestamp-*
 vite.*.ts.timestamp-*
+*.log
