@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { base_url } from '$lib/stores';
 	import Srvlist from '$lib/components/srvlist.svelte';
 
 	let hello: string = '';
 	onMount(async () => {
-		let req = await fetch('http://10.8.3.125:8082/api/test/hello', {
+		let req = await fetch(`${$base_url}/api/test/hello`, {
 			method: 'GET'
 		});
 		hello = await req.json();

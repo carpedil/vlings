@@ -50,6 +50,11 @@ pub fn (mut app App) index() vweb.Result {
 	return $vweb.html()
 }
 
+['/api/config']
+pub fn(mut app App) config() vweb.Result {
+	return app.json(conf.base_data)
+}
+
 ['/test']
 pub fn (mut app App) test() vweb.Result {
 	return app.redirect('test.html')

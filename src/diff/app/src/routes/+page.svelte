@@ -1,14 +1,12 @@
 <script lang="ts">
 	import type { SrvData, ApiData } from '$lib';
+	import { base_url } from '$lib/stores';
 	import { onMount } from 'svelte';
-	import {new_test_config} from '$lib'
 
 	let curr_srv_api: ApiData[] = [];
 	let srv_list: SrvData[] = [];
 	let output: string = '';
 	let default_hdr: string = '';
-
-	const config = new_test_config()
 
 	const submit_api = () => {
 		const selected_srv = document.getElementById('srv_list') as HTMLSelectElement;
@@ -35,7 +33,7 @@
 
 	const del_api = async (id: number) => {
 		localStorage.removeItem('output');
-		const req = await fetch(`${config.base_url}/api/del`, {
+		const req = await fetch(`${$base_url}/api/del`, {
 			method: 'POST',
 			body: JSON.stringify({
 				id: id
@@ -58,7 +56,7 @@
 
 	const validation_api = async (id: number, curr_validation: string) => {
 		localStorage.removeItem('output');
-		const req = await fetch(`${config.base_url}/api/validation`, {
+		const req = await fetch(`${$base_url}/api/validation`, {
 			method: 'POST',
 			body: JSON.stringify({
 				id: id,
@@ -77,7 +75,7 @@
 			alert('Please enter API content');
 			return;
 		}
-		const req = await fetch(`${config.base_url}/api/add`, {
+		const req = await fetch(`${$base_url}/api/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				srv_id: srv_id,
@@ -96,7 +94,7 @@
 			alert('Please enter Srv Name');
 			return;
 		}
-		const req = await fetch(`${config.base_url}/api/srv/add`, {
+		const req = await fetch(`${$base_url}/api/srv/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				srv_name: srv_name,
@@ -120,7 +118,7 @@
 		console.log('selected_srv_data:\n', curr_srv_api);
 	};
 	onMount(async () => {
-		const req = await fetch(`${config.base_url}/api/srv/list`, {
+		const req = await fetch(`${$base_url}/api/srv/list`, {
 			method: 'GET'
 		});
 		const res = await req.json();

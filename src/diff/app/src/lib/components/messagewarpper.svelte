@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { callback_msg1, callback_msg2 } from '$lib/stores';
+	import { callback_msg1, callback_msg2, ws_url, remot_srv_addrs } from '$lib/stores';
 
 	export let msg: string;
 	let srv_ip_list: string[] = [];
@@ -49,7 +49,7 @@
 	};
 
 	const set_up_ws = (ip_list: string[], msg: string) => {
-		let socket = new WebSocket('ws://10.8.3.125:30000');
+		let socket = new WebSocket(`${$ws_url}`);
 		socket.onopen = function (e) {
 			console.log('[open] Connection established');
 			console.log('Sending to server');
@@ -100,7 +100,17 @@
 				class="border pl-2 pr-2 mr-5 bg-blue-600 text-white rounded-md"
 				on:click={handleSend}
 			/>
-			<label for="old"
+			{#each $remot_srv_addrs as srv_addr, index}
+				<label for={`id_${index}`}
+					><input
+						type="checkbox"
+						value={srv_addr}
+						id={`id_${index}`}
+						name="test_srv_list"
+					/>{srv_addr}</label
+				>
+			{/each}
+			<!-- <label for="old"
 				><input type="checkbox" value="10.9.64.28" id="old" name="test_srv_list" /> 10.9.64.28</label
 			>
 			|
@@ -110,7 +120,7 @@
 			<label for="local"
 				><input type="checkbox" value="10.8.3.125" id="local" name="test_srv_list" checked /> 10.8.3.125(test
 				only)</label
-			>
+			> -->
 		</div>
 		{msg}
 	</div>

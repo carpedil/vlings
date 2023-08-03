@@ -3,17 +3,17 @@
 echo cd /diff/src
 cd ..\src
 
-echo deleting /_app 
-rmdir /s /q _app
-echo /_app has been deleted!
+@REM echo deleting /_app 
+@REM rmdir /s /q _app
+@REM echo /_app has been deleted!
 
 echo deleting /templates
 rmdir /s /q templates 
 echo /templates has been deleted!
 
-echo deleting favicon.png
-del favicon.png
-echo favicon.png has been deleted!
+@REM echo deleting favicon.png
+@REM del favicon.png
+@REM echo favicon.png has been deleted!
 
 echo back to /app
 cd ..\app
