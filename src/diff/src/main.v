@@ -6,7 +6,7 @@ import os
 import log
 import config
 
-const conf = config.new_config()
+const conf = config.new_test_config()
 
 struct App {
 	vweb.Context // pub mut:
