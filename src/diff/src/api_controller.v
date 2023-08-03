@@ -3,6 +3,7 @@ module main
 import vweb
 import json
 import dba
+import config { err, info }
 
 ['/api/add'; post]
 pub fn (mut app App) api_save() !vweb.Result {
@@ -11,13 +12,11 @@ pub fn (mut app App) api_save() !vweb.Result {
 		db.close() or { panic(err) }
 	}
 	data := json.decode(ApiData, app.req.data) or {
+		err('Failed to decode json, error: ${err}')
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: ${err}')
 	}
-
-	// println('----------------------------')
-	// dump(data)
-	// println('----------------------------')
+	info('decode ApiData from request ok\n ${data}')
 
 	//  todo save data to db
 	ad := ApiData{
@@ -31,10 +30,11 @@ pub fn (mut app App) api_save() !vweb.Result {
 		insert ad into ApiData
 	} or { insert_error = err.msg() }
 	if insert_error != '' {
-		println(insert_error)
+		err('Failed to save api, error: ${err}')
 		app.set_status(400, '')
 		return app.json(insert_error)
 	}
+	info('save data to db ok \n${ad}')
 
 	api_dto := ApiDataDto{
 		srv_id: ad.srv_id
@@ -57,16 +57,19 @@ pub fn (mut app App) del_api_by_id() !vweb.Result {
 		db.close() or { panic(err) }
 	}
 	input := json.decode(DelApiInput, app.req.data)!
-	dump(input)
+	info('decode DelApiInput from request ok\n ${input}')
+
 	mut error_msg := ''
 	sql db {
 		delete from ApiData where id == input.id
 	} or { error_msg = err.msg() }
 
 	if error_msg != '' {
+		err('Failed to delete api, error: ${err}')
 		app.set_status(500, '')
 		return app.json(error_msg)
 	}
+	info('api:${input.id} has been deleted!')
 	return app.json('api:${input.id} has been deleted!')
 }
 
@@ -82,16 +85,19 @@ pub fn (mut app App) api_validation_by_id() !vweb.Result {
 		db.close() or { panic(err) }
 	}
 	input := json.decode(ValidationInput, app.req.data)!
-	dump(input)
+	info('decode ValidationInput from request ok\n ${input}')
+
 	mut error_msg := ''
 	sql db {
 		update ApiData set is_inuse = input.validation where id == input.id
 	} or { error_msg = err.msg() }
 
 	if error_msg != '' {
+		err('Failed to update api, error: ${err}')
 		app.set_status(500, '')
 		return app.json(error_msg)
 	}
+	info('api:${input.id} has been update successfully!')
 	return app.json('update successfully!')
 }
 
@@ -114,5 +120,6 @@ fn extract_params(contents string) string {
 			params << p
 		}
 	}
+	info('api parameters extracting done \n${json.encode(params)}')
 	return json.encode(params)
 }

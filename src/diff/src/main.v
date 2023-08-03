@@ -1,10 +1,9 @@
 module main
 
 import vweb
-import dba
 import os
-import log
-import config
+import dba
+import config { info }
 
 const conf = config.new_test_config()
 
@@ -12,20 +11,10 @@ struct App {
 	vweb.Context // pub mut:
 }
 
-pub fn (mut app App) before_request() {
-	println('[web] before_request: ${app.req.method} ${app.req.host} ${app.req.url} -> ${app.req.data}')
-}
-
 fn main() {
-	mut loger := log.Log{}
-	loger.set_level(.info)
-	// Make a new file called info.log in the current folder
-	loger.set_full_logpath('./info.log')
-	loger.log_to_console_too()
-
 	spawn start_server()
-	mut db := dba.create_db_connection() or { panic(err) }
 
+	mut db := dba.create_db_connection() or { panic(err) }
 	sql db {
 		create table ApiData
 		create table SrvData
@@ -40,9 +29,14 @@ fn main() {
 
 	app.handle_static('_app', true)
 	app.mount_static_folder_at(os.resource_abs_path('./templates'), '/')
+	info('Running app on http://${conf.host_ip}:${conf.port}')
 	vweb.run_at(app, vweb.RunParams{ host: conf.host_ip, port: conf.port, family: .ip }) or {
 		panic(err)
 	}
+}
+
+pub fn (mut app App) before_request() {
+	info('[web] before_request: ${app.req.method} ${app.req.host} ${app.req.url} -> ${app.req.data}')
 }
 
 pub fn (mut app App) index() vweb.Result {

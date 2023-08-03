@@ -3,6 +3,7 @@ module main
 import vweb
 import json
 import dba
+import config { err, info }
 
 ['/api/srv/add'; post]
 pub fn (mut app App) srv_save() !vweb.Result {
@@ -11,10 +12,11 @@ pub fn (mut app App) srv_save() !vweb.Result {
 		db.close() or { panic(err) }
 	}
 	data := json.decode(SrvData, app.req.data) or {
+		err('Failed to decode json, error: ${err}')
 		app.set_status(400, '')
 		return app.text('Failed to decode json, error: ${err}')
 	}
-
+	info('decode SrvData from request ok\n ${data}')
 	//  todo save data to db
 	sd := SrvData{
 		srv_name: data.srv_name
@@ -25,10 +27,11 @@ pub fn (mut app App) srv_save() !vweb.Result {
 		insert sd into SrvData
 	} or { insert_error = err.msg() }
 	if insert_error != '' {
-		println(insert_error)
+		err('Failed to save srv data, error: ${err}')
 		app.set_status(400, '')
 		return app.json(insert_error)
 	}
+	info('save data to db ok \n${sd}')
 
 	return app.json(data)
 }
@@ -39,13 +42,14 @@ pub fn (mut app App) srv_list() !vweb.Result {
 	defer {
 		db.close() or { panic(err) }
 	}
+	info('select from SrvData')
 	results := sql db {
 		select from SrvData
 	}!
 
-	// println('===========================')
-	// dump(results)
-	// println('===========================')
+	info('results:\n ${results}')
+
+	info('Start to process SrvDataDto')
 	mut srv_list := []SrvDataDto{}
 	for srv in results {
 		mut srv_dto := SrvDataDto{}
@@ -68,14 +72,14 @@ pub fn (mut app App) srv_list() !vweb.Result {
 					param.value = srv_dto.default_hdr
 				}
 			}
-			// dump(api_dto)
+			info('push api_dto into srv_dto.api_list \n${api_dto}')
 			api_list << api_dto
 		}
 		srv_dto.api_list = api_list
 
-		// dump(srv_dto)
+		info('push srv_dto into srv_list \n${srv_dto}')
 		srv_list << srv_dto
 	}
-
+	info('End to process SrvDataDto\n${srv_list}')
 	return app.json(srv_list)
 }
