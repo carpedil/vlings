@@ -40,7 +40,7 @@ pub fn start_server() ! {
 	}
 
 	// Make that in execution test time give time to execute at least one time
-	// s.set_ping_interval(30000)
+	s.set_ping_interval(60)
 	s.on_connect(fn (mut s websocket.ServerClient) !bool {
 		slog('ws.on_connect, s.client_key: ${s.client_key}')
 		// Here you can look att the client info and accept or not accept
@@ -66,14 +66,14 @@ pub fn start_server() ! {
 	slog('s.listen finished')
 }
 
-fn parse_client_message(payload string) (string, string) {
+fn parse_client_message(payload string) ([]string, string) {
 	slog('handle_client_message payload: ${payload}')
-	addrs := payload.split('>')[0]
+	addrs := payload.split('>')[0].split(',')
 	msg := payload.split('>')[1]
 	return addrs, msg
 }
 
-fn local_tcp_listener_setup(message string, addr string, mut ws websocket.Client, msg &websocket.Message) ! {
+fn local_tcp_listener_setup(message string, addrs []string, mut ws websocket.Client, msg &websocket.Message) ! {
 	mut listener := net.listen_tcp(.ip, conf.local_tcp_addr) or { panic(err) }
 	defer {
 		listener.close() or { panic(err) }
@@ -82,7 +82,9 @@ fn local_tcp_listener_setup(message string, addr string, mut ws websocket.Client
 	slog('Tcp Listener Get Local Ip Address@${listener.addr()}')
 
 	mut wg := sync.new_waitgroup()
-	spawn handle_connect_and_send(mut wg, message, addr)
+	for addr in addrs {
+		spawn handle_connect_and_send(mut wg, message, addr)
+	}
 
 	for {
 		mut conn := listener.accept() or { panic(err) }
@@ -100,8 +102,7 @@ fn local_tcp_listener_setup(message string, addr string, mut ws websocket.Client
 			return
 		}
 		received := buf[0..nbytes].bytestr()
-
-		slog('[${conn.peer_addr()}][Received Message]:${received}')
+		slog('[${conn.peer_addr()!}][Received Message]:${received}')
 		payload := '${conn.peer_ip()}|${received}'
 		ws.write(payload.bytes(), msg.opcode) or {
 			clog('ws.write err: ${err}')

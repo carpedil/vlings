@@ -23,8 +23,7 @@ fn main() {
 	loger.set_full_logpath('./info.log')
 	loger.log_to_console_too()
 
-	// spawn local_tcp_listener_setup(msg_chan, mut &loger)
-	// spawn start_server()
+	spawn start_server()
 	mut db := dba.create_db_connection() or { panic(err) }
 
 	sql db {
@@ -35,7 +34,7 @@ fn main() {
 	db.close() or { panic(err) }
 
 	mut app := &App{}
-	// app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
+	app.serve_static('/favicon.ico', 'src/assets/favicon.ico')
 	// makes all static files available.
 	os.chdir(os.dir(os.executable()))!
 
@@ -51,7 +50,7 @@ pub fn (mut app App) index() vweb.Result {
 }
 
 ['/api/config']
-pub fn(mut app App) config() vweb.Result {
+pub fn (mut app App) config() vweb.Result {
 	return app.json(conf.base_data)
 }
 

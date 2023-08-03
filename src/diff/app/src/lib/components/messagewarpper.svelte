@@ -53,10 +53,8 @@
 		socket.onopen = function (e) {
 			console.log('[open] Connection established');
 			console.log('Sending to server');
-			for (const ip of ip_list) {
-				console.log(`Sending: ${ip}>${msg}`);
-				socket.send(`${ip}>${msg}`);
-			}
+			console.log(`${ip_list.toString()}>${msg}`);
+			socket.send(`${ip_list.toString()}>${msg}`);
 		};
 
 		socket.onmessage = function (event) {
