@@ -62,15 +62,15 @@
 			updateCallbackMsg(event.data);
 		};
 
-		socket.onclose = function (event) {
-			if (event.wasClean) {
-				console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
-			} else {
-				// e.g. server process killed or network down
-				// event.code is usually 1006 in this case
-				console.log('[close] Connection died');
-			}
-		};
+		// socket.onclose = function (event) {
+		// 	if (event.wasClean) {
+		// 		console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+		// 	} else {
+		// 		// e.g. server process killed or network down
+		// 		// event.code is usually 1006 in this case
+		// 		console.log('[close] Connection died');
+		// 	}
+		// };
 
 		socket.onerror = function (error) {
 			console.log(`[error]${JSON.stringify(error, null, 4)}`);
@@ -89,39 +89,28 @@
 	});
 </script>
 
-<div class="flex flex-col justify-evenly border w-full h-[73vh] p-1">
-	<div class="border w-full h-[73vh] p-1">
-		<div class="w-full border-2 border-b-black">
-			<input
-				type="button"
-				value="SEND"
-				class="border pl-2 pr-2 mr-5 bg-blue-600 text-white rounded-md"
-				on:click={handleSend}
-			/>
-			{#each $remot_srv_addrs as srv_addr, index}
-				<label for={`id_${index}`}
-					><input
-						type="checkbox"
-						value={srv_addr}
-						id={`id_${index}`}
-						name="test_srv_list"
-					/>{srv_addr}</label
-				>
-			{/each}
-			<!-- <label for="old"
-				><input type="checkbox" value="10.9.64.28" id="old" name="test_srv_list" /> 10.9.64.28</label
+<div class="flex flex-col justify-evenly border w-[54vw] h-[74vh] p-1">
+	<div class="w-full bg-white border-2 border-b-black h-fit sticky top-0">
+		<input
+			type="button"
+			value="SEND"
+			class="border pl-2 pr-2 mr-5 bg-blue-600 text-white rounded-md"
+			on:click={handleSend}
+		/>
+		{#each $remot_srv_addrs as srv_addr, index}
+			<label for={`id_${index}`}
+				><input
+					type="checkbox"
+					value={srv_addr}
+					id={`id_${index}`}
+					name="test_srv_list"
+				/>{srv_addr}</label
 			>
-			|
-			<label for="new"
-				><input type="checkbox" value="10.162.138.83" id="new" name="test_srv_list" /> 10.162.138.83</label
-			>
-			<label for="local"
-				><input type="checkbox" value="10.8.3.125" id="local" name="test_srv_list" checked /> 10.8.3.125(test
-				only)</label
-			> -->
-		</div>
+		{/each}
+	</div>
+	<div class="border w-full h-[24vh] overflow-y-scroll p-1">
 		{msg}
 	</div>
-	<div class="border w-full h-[73vh] p-1">{@html $callback_msg1}</div>
-	<div class="border w-full h-[73vh] p-1">{@html $callback_msg2}</div>
+	<div class="border w-[54vw] h-[34vh] overflow-y-scroll p-1">{@html $callback_msg1}</div>
+	<div class="border w-[54vw] h-[34vh] overflow-y-scroll p-1">{@html $callback_msg2}</div>
 </div>

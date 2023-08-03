@@ -17,17 +17,6 @@ fn wlog(message string) {
 	eprintln(term.colorize(term.bright_blue, message))
 }
 
-type Mc = fn (chan string) chan string
-
-fn get_msg(ch chan string) string {
-	mut message_box := []string{}
-	select {
-		message := <-ch {
-			message_box << message
-		}
-	}
-	return message_box.str()
-}
 
 // start_server starts the websocket server, it receives messages
 // and send it back to the client that sent it
@@ -40,7 +29,7 @@ pub fn start_server() ! {
 	}
 
 	// Make that in execution test time give time to execute at least one time
-	s.set_ping_interval(60)
+	s.set_ping_interval(60*60*24)
 	s.on_connect(fn (mut s websocket.ServerClient) !bool {
 		slog('ws.on_connect, s.client_key: ${s.client_key}')
 		// Here you can look att the client info and accept or not accept
@@ -103,7 +92,7 @@ fn local_tcp_listener_setup(message string, addrs []string, mut ws websocket.Cli
 		}
 		received := buf[0..nbytes].bytestr()
 		slog('[${conn.peer_addr()!}][Received Message]:${received}')
-		payload := '${conn.peer_ip()}|${received}'
+		payload := '${conn.peer_ip()!}|${received}'
 		ws.write(payload.bytes(), msg.opcode) or {
 			clog('ws.write err: ${err}')
 			return err

@@ -6,14 +6,14 @@ import os
 import log
 import config
 
-const conf = config.new_test_config()
+const conf = config.new_config()
 
 struct App {
 	vweb.Context // pub mut:
 }
 
 pub fn (mut app App) before_request() {
-	println('[web] before_request: ${app.req.method} ${app.req.url} -> ${app.req.data}')
+	println('[web] before_request: ${app.req.method} ${app.req.host} ${app.req.url} -> ${app.req.data}')
 }
 
 fn main() {

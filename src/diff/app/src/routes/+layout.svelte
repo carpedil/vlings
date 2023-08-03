@@ -3,7 +3,7 @@
 	import { base_url, ws_url, remot_srv_addrs } from '$lib/stores';
 	import '../app.postcss';
 	onMount(async () => {
-		const req = await fetch('http://localhost:8090/api/config', {
+		const req = await fetch('/api/config', {
 			method: 'GET'
 		});
 		const res = await req.json();

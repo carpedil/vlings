@@ -31,9 +31,9 @@
 		</div>
 	{/if}
 </div>
-<div class="bg-white h-[73vh] p-1">
-	<div class="flex flex-row justify-evenly">
-		<div class="border w-[55vw] h-[73vh] p-1">
+<div class="bg-white h-[74vh] p-1">
+	<div class="flex flex-row justify-start">
+		<div class="border w-[35vw] h-[74vh] p-1">
 			{#if api != undefined}
 				{#each api.api_param as param}
 					<div class="border">
