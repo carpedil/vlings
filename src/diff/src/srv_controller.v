@@ -47,9 +47,7 @@ pub fn (mut app App) srv_list() !vweb.Result {
 		select from SrvData
 	}!
 
-	info('results:\n ${results}')
-
-	info('Start to process SrvDataDto')
+	info('results: ${results.len}')
 	mut srv_list := []SrvDataDto{}
 	for srv in results {
 		mut srv_dto := SrvDataDto{}
@@ -72,14 +70,12 @@ pub fn (mut app App) srv_list() !vweb.Result {
 					param.value = srv_dto.default_hdr
 				}
 			}
-			info('push api_dto into srv_dto.api_list \n${api_dto}')
 			api_list << api_dto
 		}
 		srv_dto.api_list = api_list
 
-		info('push srv_dto into srv_list \n${srv_dto}')
+		info('${srv_dto.srv_name}')
 		srv_list << srv_dto
 	}
-	info('End to process SrvDataDto\n${srv_list}')
 	return app.json(srv_list)
 }
