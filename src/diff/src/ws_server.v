@@ -7,7 +7,7 @@ import config { err, info }
 
 // start_server starts the websocket server, it receives messages
 // and send it back to the client that sent it
-pub fn start_server() ! {
+pub fn start_socket_server() ! {
 	mut s := websocket.new_server(.ip, conf.socket_port, conf.socket_host)
 	defer {
 		unsafe {
