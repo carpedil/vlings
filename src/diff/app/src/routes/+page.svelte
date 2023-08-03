@@ -45,13 +45,7 @@
 	};
 
 	const apiValidation = (evt: any) => {
-		if (
-			confirm(
-				`Confirm to make this API ${evt.target.dataset.validation == 'Y' ? `INVALID` : `VALID`} ?`
-			)
-		) {
-			validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
-		}
+		validation_api(Number(evt.target.dataset.api_id), evt.target.dataset.validation);
 	};
 
 	const validation_api = async (id: number, curr_validation: string) => {
@@ -205,7 +199,7 @@
 					<th class="w-[6vw] text-center">OPERATION</th>
 				</tr>
 				{#each curr_srv_api as api, index}
-					<tr>
+					<tr class=" hover:bg-blue-400 hover:text-white">
 						<td class="border text-center">{index + 1}</td>
 						<td class="border">{api.api_name}</td>
 						<td class="border">{api.api_content}</td>
