@@ -1,5 +1,30 @@
 module buildin
 
+
+import os
+
+fn test_index_after() {
+	str := 'LOT_SRV,FANET,abc,XXXXXX,sdfs,sdfd'
+	delimer :=',FANET,'
+	starter:= str.split(delimer)[0]
+	left_content := str.split(',FANET,')[1]
+	left_content_body := left_content.split(',')[1]
+
+	hostname := os.hostname()!
+	println("${starter}${delimer}${hostname},${left_content_body}")
+	println(str)
+}
+
+fn test_split() {
+	str := 'CUSTOM_SRV,FANET,WIN10-OSF2,FTP_SRV,3.0.0.151,14 DATETIME=20230613093623'
+	hostname := os.hostname()!
+	mut str_split := str.split_nth(',',3)
+	println(str_split)
+	str_split[2] = hostname
+	println(str_split.join(','))
+}
+
+
 struct User {
 	name string
 	age  int
