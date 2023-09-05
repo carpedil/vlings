@@ -22,7 +22,7 @@ fn setup() (&net.TcpListener, &net.TcpConn, &net.TcpConn) {
 	socket := <-c
 
 	$if debug_peer_ip ? {
-		eprintln('${server.addr()}\n${client.peer_addr()}, ${client.addr()}\n${socket.peer_addr()}, ${socket.addr()}')
+		eprintln('${server.addr()!}\n${client.peer_addr()!}, ${client.addr()!}\n${socket.peer_addr()!}, ${socket.addr()!}')
 	}
 	assert true
 	return server, client, socket

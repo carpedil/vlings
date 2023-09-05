@@ -55,8 +55,8 @@ fn setup() !(&net.TcpListener, &net.TcpConn, &net.TcpConn, &net.TcpListener, &ne
 	socket1 := <-c1
 	socket2 := <-c2
 
-	println('${srv1.addr()}-${client1.peer_addr()}, ${client1.addr()}-${socket1.peer_addr()}, ${socket1.addr()}')
-	println('${srv2.addr()}-${client2.peer_addr()}, ${client2.addr()}-${socket2.peer_addr()}, ${socket2.addr()}')
+	println('${srv1.addr()!}-${client1.peer_addr()!}, ${client1.addr()!}-${socket1.peer_addr()!}, ${socket1.addr()!}')
+	println('${srv2.addr()!}-${client2.peer_addr()!}, ${client2.addr()!}-${socket2.peer_addr()!}, ${socket2.addr()!}')
 
 	assert true
 	return srv1, client1, socket1, srv2, client2, socket2
