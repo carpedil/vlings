@@ -1,4 +1,4 @@
-module interface
+module interfaces
 
 interface IdOwner {
 	id int

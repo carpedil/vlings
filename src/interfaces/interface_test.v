@@ -1,4 +1,4 @@
-module interface
+module interfaces
 
 fn greet(s Speaker) {
 	println(s.speak('Woof, woof !'))
