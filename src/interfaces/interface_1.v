@@ -1,4 +1,4 @@
-module interface
+module interfaces
 
 interface Speaker {
 	speak(msg string) string
